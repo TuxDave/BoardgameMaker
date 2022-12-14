@@ -1,0 +1,19 @@
+FEATURES:
+- Inventario drag & drop
+? Preview del campo di gioco
+- Editor oggetto selezionato
+- Albero di oggetti:
+    - root: game, oggetto che contiene la lista delle fasi di gioco
+            - conosce gli elementi di gioco (e li fornisce a tutti i nodi)
+    - nodo: oggetto composto da lista di fasi a loro volta nodi
+            ogni nodo ha una funzione che viene attivata in automatico (prima/dopo)
+- File Manager del progetto
+
+PROCEDURE:
+Creazione del progetto:
+    - crea cartella
+    - crea il file di progetto [xml/-json-/yaml]
+    - crea cartella assets
+    - richiesta anagrafica del gioco (nome, categoria ecc)
+    ? Seleziona Preset
+    - Apertura IDE
