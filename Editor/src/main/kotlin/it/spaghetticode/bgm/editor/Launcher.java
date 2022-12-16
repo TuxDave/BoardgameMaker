@@ -12,11 +12,10 @@ import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.Method;
 import java.util.Locale;
-import java.util.ResourceBundle;
 
 public class Launcher extends JFrame {
+    Launcher self;
     private JPanel panel1;
     private JButton newButton;
     private JButton openButton;
@@ -31,6 +30,8 @@ public class Launcher extends JFrame {
 
         Listener l = new Listener();
         newButton.addActionListener(l);
+
+        self = this;
     }
 
     @Override
@@ -111,9 +112,13 @@ public class Launcher extends JFrame {
             if (source == newButton) {
                 NewProjectDialog d = NewProjectDialog.showDialog();
                 Project p = d.getProject();
-                String location = d.getLocation();
+                String location = d.getLocationPath();
                 if (p == null) return;
-                // TODO: 16/12/22 serializzare il progetto nella locatio indicata e aprirlo
+                if (!p.save(location)) {
+                    JOptionPane.showMessageDialog(self, "Unable to create project in specified location!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                // TODO: 16/12/22 aprire il progetto appena creato
             }
         }
     }

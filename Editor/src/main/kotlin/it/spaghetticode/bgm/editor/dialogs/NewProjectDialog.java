@@ -22,9 +22,12 @@ public class NewProjectDialog extends JDialog {
 
     public NewProjectDialog() {
         project = null;
-        location = null;
+        locationPath = null;
 
         $$$setupUI$$$();
+
+        locationTextField.setText(System.getProperty("user.home"));
+
         setContentPane(contentPane);
         setResizable(false);
         pack();
@@ -33,7 +36,6 @@ public class NewProjectDialog extends JDialog {
         getRootPane().setDefaultButton(buttonOK);
 
         buttonOK.addActionListener(e -> onOK());
-
         buttonCancel.addActionListener(e -> onCancel());
 
         // call onCancel() when cross is clicked
@@ -70,7 +72,7 @@ public class NewProjectDialog extends JDialog {
         String name = nameTextField.getText();
         String desc = descriptionTextField.getText();
         project = new Project(name, desc);
-        location = locationTextField.getText();
+        locationPath = locationTextField.getText();
         dispose();
     }
 
@@ -81,7 +83,7 @@ public class NewProjectDialog extends JDialog {
     @Getter
     private Project project = null;
     @Getter
-    private String location;
+    private String locationPath;
 
     public static NewProjectDialog showDialog() {
         NewProjectDialog dialog = new NewProjectDialog();

@@ -47,7 +47,9 @@
                 <version>${kotlin.version}</version>
                 <configuration>
                     <jvmTarget>11</jvmTarget>
-                    <plugin>kotlinx-serialization</plugin>
+                    <compilerPlugins>
+                        <plugin>kotlinx-serialization</plugin>
+                    </compilerPlugins>
                 </configuration>
                 <executions>
                     <execution>
