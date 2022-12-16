@@ -11,7 +11,7 @@ FEATURES:
 
 PROCEDURE:
 Creazione del progetto:
-    - crea cartella
+    - crea cartella: cartella con dentro file di progetto
     - crea il file di progetto [xml/-json-/yaml]
     - crea cartella assets
     - richiesta anagrafica del gioco (nome, categoria ecc)
