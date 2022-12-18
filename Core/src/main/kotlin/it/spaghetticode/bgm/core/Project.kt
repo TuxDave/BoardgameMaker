@@ -1,16 +1,43 @@
 package it.spaghetticode.bgm.core
 
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.*
+import java.lang.Exception
+import java.lang.RuntimeException
 
 @Serializable
 class Project(
-    private var name: String,
-    val description: String
+    var name: String,
+    val description: String,
 ) {
+    @Transient //non serializza questo
+    var location: File? = null
+        @Throws(ProjectException::class)
+        set(value) {
+            if(value == null) {
+                field = null
+                return
+            }
+            val e = ProjectException("location attribute must be a directory (not null) containing a bgm project")
+            if (!value.isDirectory ){
+                throw e
+            } else {
+                var ok = false
+                for(file in value.listFiles()){
+                    if(file.name.endsWith(".bgm")){
+                        ok = true
+                        break
+                    }
+                }
+                if(ok) field = value
+                else throw e
+            }
+        }
     init {
         name = if (name != "") {
             name
@@ -45,10 +72,11 @@ class Project(
                 val p = Json.decodeFromString<Project>(reader.readText())
                 reader.close()
                 return p
-                // TODO: test this 
             } else {
                 throw FileNotFoundException("File '${file.absoluteFile}': not found")
             }
         }
     }
 }
+
+class ProjectException(msg: String = "") : RuntimeException(msg)

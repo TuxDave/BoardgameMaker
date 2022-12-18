@@ -5,6 +5,7 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import it.spaghetticode.bgm.core.Project;
 import it.spaghetticode.bgm.editor.dialogs.NewProjectDialog;
+import  it.spaghetticode.bgm.editor.bgmFileFilter;
 
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
@@ -12,6 +13,9 @@ import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileNotFoundException;
 import java.util.Locale;
 
 public class Launcher extends JFrame {
@@ -30,6 +34,8 @@ public class Launcher extends JFrame {
 
         Listener l = new Listener();
         newButton.addActionListener(l);
+        settingsButton.addActionListener(l);
+        openButton.addActionListener(l);
 
         self = this;
     }
@@ -104,6 +110,38 @@ public class Launcher extends JFrame {
         return panel1;
     }
 
+    private void openProject(Project p, File location) {
+        p.setLocation(location);
+        if (p.getLocation() != null) {
+            boolean warn = true;
+            for (File f : p.getLocation().listFiles(bgmFileFilter.INSTANCE.toJavaFileFilter())) {
+                String name = f.getName();
+                name = name.substring(0, name.length() - 4);
+                if (name.equals(p.getName())) {
+                    warn = false;
+                    break;
+                }
+            }
+            if (warn) {
+                boolean c = JOptionPane.showConfirmDialog(
+                        self,
+                        "Warning, the project's name doesn't match with the project file name!\n" +
+                                "Do you want to continue anyway?",
+                        "Warning",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE,
+                        null) == 0;
+                if (!c) {
+                    return;
+                }
+            }
+            System.out.println("open");
+            UiUtilsKt.switchView(self, new Launcher()); // TODO: 18/12/22 it is a test, switch the new launcher with the ide main page
+        } else {
+            JOptionPane.showMessageDialog(self, "Unable to find the specified location!");
+        }
+    }
+
     private class Listener implements ActionListener {
 
         @Override
@@ -118,9 +156,31 @@ public class Launcher extends JFrame {
                     JOptionPane.showMessageDialog(self, "Unable to create project in specified location!", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                // TODO: 16/12/22 aprire il progetto appena creato
+                openProject(p, new File(location));
+            } else if (source == openButton) {
+                JFileChooser dialog = new JFileChooser();
+                dialog.setDialogTitle("Open existing project...");
+                dialog.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                dialog.setMultiSelectionEnabled(false);
+                dialog.addChoosableFileFilter(bgmFileFilter.INSTANCE);
+                dialog.setAcceptAllFileFilterUsed(false);
+                dialog.showOpenDialog(self);
+                File f = dialog.getSelectedFile();
+                if (f == null) return;
+                try {
+                    Project p = Project.open(f);
+                    openProject(p, f.getParentFile());
+                } catch (FileNotFoundException e) {
+                    JOptionPane.showMessageDialog(
+                            self,
+                            "Unable to open, project corrupted",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                }
+            } else if (source == settingsButton) {
+                JOptionPane.showMessageDialog(self, "No settings available yet!");
             }
         }
     }
-
 }
