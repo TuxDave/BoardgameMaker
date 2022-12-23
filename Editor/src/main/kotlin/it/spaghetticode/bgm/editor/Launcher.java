@@ -4,6 +4,7 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import it.spaghetticode.bgm.core.Project;
+import it.spaghetticode.bgm.core.ProjectException;
 import it.spaghetticode.bgm.editor.dialogs.NewProjectDialog;
 import  it.spaghetticode.bgm.editor.bgmFileFilter;
 
@@ -85,7 +86,9 @@ public class Launcher extends JFrame {
         scrollPane1.setViewportView(list1);
     }
 
-    /** @noinspection ALL */
+    /**
+     * @noinspection ALL
+     */
     private Font $$$getFont$$$(String fontName, int style, int size, Font currentFont) {
         if (currentFont == null) return null;
         String resultName;
@@ -105,7 +108,9 @@ public class Launcher extends JFrame {
         return fontWithFallback instanceof FontUIResource ? fontWithFallback : new FontUIResource(fontWithFallback);
     }
 
-    /** @noinspection ALL */
+    /**
+     * @noinspection ALL
+     */
     public JComponent $$$getRootComponent$$$() {
         return panel1;
     }
@@ -152,11 +157,15 @@ public class Launcher extends JFrame {
                 Project p = d.getProject();
                 String location = d.getLocationPath();
                 if (p == null) return;
-                if (!p.save(location)) {
-                    JOptionPane.showMessageDialog(self, "Unable to create project in specified location!", "Error", JOptionPane.ERROR_MESSAGE);
+                try {
+                    if (!p.save(location)) {
+                        throw new ProjectException("Unable to create project in specified location!");
+                    }
+                } catch (ProjectException e) {
+                    JOptionPane.showMessageDialog(self, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                openProject(p, new File(location));
+                openProject(p, new File(location + "/" + p.getName()));
             } else if (source == openButton) {
                 JFileChooser dialog = new JFileChooser();
                 dialog.setDialogTitle("Open existing project...");

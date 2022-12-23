@@ -9,6 +9,7 @@ fun switchView(from: JFrame, to: JFrame): Unit {
         to.isVisible = true
     }.start()
     from.dispose()
+    println(Thread.getAllStackTraces().size)
 }
 
 object bgmFileFilter : FileFilter(){

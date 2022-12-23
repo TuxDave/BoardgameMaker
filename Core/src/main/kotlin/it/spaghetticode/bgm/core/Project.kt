@@ -50,7 +50,8 @@ class Project(
         var path = path
         if(!path.endsWith("/")) path += "/"
         try {
-            if(!File("$path$name/").mkdir()) throw IOException()
+            if(!File("$path$name/").mkdir()) throw ProjectException("Unable to create project in specified" +
+                    " location: project with same name already exists!")
             val writer = BufferedWriter(FileWriter("$path$name/$name.bgm"))
             writer.write(Json.encodeToString(this))
             writer.close()
