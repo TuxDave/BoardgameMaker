@@ -1,10 +1,11 @@
-package it.spaghetticode.bgm.editor;
+package it.spaghetticode.bgm.editor.windows;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import it.spaghetticode.bgm.core.Project;
 import it.spaghetticode.bgm.core.ProjectException;
+import it.spaghetticode.bgm.editor.UiUtilsKt;
 import it.spaghetticode.bgm.editor.dialogs.NewProjectDialog;
 import  it.spaghetticode.bgm.editor.bgmFileFilter;
 
@@ -15,7 +16,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.util.Locale;
 
@@ -140,8 +140,7 @@ public class Launcher extends JFrame {
                     return;
                 }
             }
-            System.out.println("open");
-            UiUtilsKt.switchView(self, new Launcher()); // TODO: 18/12/22 it is a test, switch the new launcher with the ide main page
+            UiUtilsKt.switchView(self, new Editor(p));
         } else {
             JOptionPane.showMessageDialog(self, "Unable to find the specified location!");
         }
