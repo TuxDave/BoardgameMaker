@@ -5,6 +5,7 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import it.spaghetticode.bgm.core.Project;
 import it.spaghetticode.bgm.core.ProjectException;
+import it.spaghetticode.bgm.editor.MainKt;
 import it.spaghetticode.bgm.editor.UiUtilsKt;
 import it.spaghetticode.bgm.editor.dialogs.NewProjectDialog;
 import  it.spaghetticode.bgm.editor.bgmFileFilter;
@@ -17,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ConcurrentModificationException;
 import java.util.Locale;
 
 public class Launcher extends JFrame {
@@ -25,7 +27,7 @@ public class Launcher extends JFrame {
     private JButton newButton;
     private JButton openButton;
     private JButton settingsButton;
-    private JList list1;
+    private JList<String> list1;
 
     public Launcher() throws HeadlessException {
         super();
@@ -37,6 +39,23 @@ public class Launcher extends JFrame {
         newButton.addActionListener(l);
         settingsButton.addActionListener(l);
         openButton.addActionListener(l);
+
+        {
+            DefaultListModel<String> m = new DefaultListModel<String>();
+            for (String p : MainKt.getRecentProjects()) {
+                try {
+                    m.addElement(Project.open(new File(p)).getName());
+                    // TODO: 29/12/22 aggiungere solo una volta ai recenti quando si apre più volte un progetto
+                    //aggiungere l'apertura da recente (easy)
+                    //rimuovere dai recenti (forse conviene fare un custom renderer per i Project in modo da avere semplice la location)
+                } catch (Exception e) {
+                    e.printStackTrace();
+//                    MainKt.getRecentProjects().remove(p); //ConcurrentModificationException??
+                }
+            }
+            MainKt.updateRecentFile();
+            list1.setModel(m);
+        }
 
         self = this;
     }
@@ -86,9 +105,7 @@ public class Launcher extends JFrame {
         scrollPane1.setViewportView(list1);
     }
 
-    /**
-     * @noinspection ALL
-     */
+    /** @noinspection ALL */
     private Font $$$getFont$$$(String fontName, int style, int size, Font currentFont) {
         if (currentFont == null) return null;
         String resultName;
@@ -108,9 +125,7 @@ public class Launcher extends JFrame {
         return fontWithFallback instanceof FontUIResource ? fontWithFallback : new FontUIResource(fontWithFallback);
     }
 
-    /**
-     * @noinspection ALL
-     */
+    /** @noinspection ALL */
     public JComponent $$$getRootComponent$$$() {
         return panel1;
     }
@@ -140,6 +155,8 @@ public class Launcher extends JFrame {
                     return;
                 }
             }
+            MainKt.getRecentProjects().add(p.getLocation().getAbsolutePath() + "/" + p.getName() + ".bgm");
+            MainKt.updateRecentFile();
             UiUtilsKt.switchView(self, new Editor(p));
         } else {
             JOptionPane.showMessageDialog(self, "Unable to find the specified location!");
