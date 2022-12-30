@@ -2,8 +2,6 @@ package it.spaghetticode.bgm.editor.components;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 
 public class JPlaceHolderTextField extends JTextField{
     public String placeHolder = "";

@@ -6,15 +6,8 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.jetbrains.annotations.PropertyKey
 import org.json.JSONArray
-import org.json.JSONObject
-import java.io.BufferedReader
-import java.io.BufferedWriter
-import java.io.File
-import java.io.FileReader
-import java.io.FileWriter
-import java.lang.Exception
+import java.io.*
 
 val SETTINGS_PATH = System.getProperty("user.home") + "/.BoardgameMaker"
 fun main() {
