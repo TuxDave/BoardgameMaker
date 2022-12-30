@@ -4,11 +4,13 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import it.spaghetticode.bgm.core.Project;
+import it.spaghetticode.bgm.editor.MainKt;
 import it.spaghetticode.bgm.editor.UiUtilsKt;
 import lombok.Getter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 
 public class Editor extends JFrame {
     Editor self;
@@ -65,7 +67,6 @@ public class Editor extends JFrame {
         pack();
 
         setupMenuBar();
-        // TODO: 27/12/22 do open from latest still open proj 
     }
 
     /**
@@ -75,6 +76,8 @@ public class Editor extends JFrame {
         {
             JMenuItem jmi = new JMenuItem("Close");
             jmi.addActionListener(actionEvent -> {
+                File currentOpened = new File(MainKt.getSETTINGS_PATH() + MainKt.getOPENED_PATH());
+                currentOpened.delete();
                 UiUtilsKt.switchView(self, new Launcher());
             });
             fileMenu.add(jmi);

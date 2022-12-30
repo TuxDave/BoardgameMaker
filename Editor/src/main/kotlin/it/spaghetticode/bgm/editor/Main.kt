@@ -2,6 +2,7 @@ package it.spaghetticode.bgm.editor
 
 import it.spaghetticode.bgm.core.Project
 import it.spaghetticode.bgm.editor.windows.Launcher
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -10,19 +11,31 @@ import org.json.JSONArray
 import java.io.*
 
 val SETTINGS_PATH = System.getProperty("user.home") + "/.BoardgameMaker"
+val OPENED_PATH = "/opened.json"
 fun main() {
     val settings = File(SETTINGS_PATH)
     if(!settings.exists()){
         settings.mkdir()
-    }else if(!settings.isDirectory){
+    }else if(!settings.isDirectory) {
         settings.delete()
         settings.mkdir()
     }
+
     loadSettings(settings)
 
-    val l = Launcher()
-    l.isVisible = true
-    l.pack()
+    try{
+        val temp = Json.decodeFromString<ProjectAndLocation>(
+            FileReader(SETTINGS_PATH + OPENED_PATH).readText()
+        )
+        val currentOpened = temp.project
+        currentOpened.location = File(temp.location)
+        val l = Launcher();
+        l.openProject(currentOpened, currentOpened.location)
+    }catch(e: Exception){
+        val l = Launcher()
+        l.isVisible = true
+        l.pack()
+    }
 }
 
 fun loadSettings(s: File): Unit {
@@ -89,4 +102,11 @@ fun MutableList<ProjectAndLocation>.removeDuplicates(){
 }
 
 @Serializable
-data class ProjectAndLocation(val project: Project, val location: String)
+data class ProjectAndLocation(val project: Project, val location: String){
+    companion object{
+        @JvmStatic
+        fun getSerializer(): KSerializer<ProjectAndLocation> {
+            return ProjectAndLocation.serializer()
+        }
+    }
+}

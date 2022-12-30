@@ -7,6 +7,10 @@ import it.spaghetticode.bgm.core.Project;
 import it.spaghetticode.bgm.core.ProjectException;
 import it.spaghetticode.bgm.editor.*;
 import it.spaghetticode.bgm.editor.dialogs.NewProjectDialog;
+import kotlinx.serialization.KSerializer;
+import kotlinx.serialization.Serializable;
+import kotlinx.serialization.SerializationStrategy;
+import kotlinx.serialization.json.Json;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -20,6 +24,8 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.MouseAdapter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Locale;
 
 public class Launcher extends JFrame {
@@ -155,7 +161,7 @@ public class Launcher extends JFrame {
         return panel1;
     }
 
-    private void openProject(Project p, File location) {
+    public void openProject(Project p, File location) {
         p.setLocation(location);
         if (p.getLocation() != null) {
             boolean warn = true;
@@ -180,10 +186,21 @@ public class Launcher extends JFrame {
                     return;
                 }
             }
+            ProjectAndLocation pal = new ProjectAndLocation(p, location.getAbsolutePath());
             MainKt.getRecentProjects().add(
-                    new ProjectAndLocation(p, location.getAbsolutePath())
+                    pal
             );
             MainKt.updateRecentFile();
+
+            try {
+                FileWriter writer = new FileWriter(MainKt.getSETTINGS_PATH() + MainKt.getOPENED_PATH());
+                writer.write(
+                        Json.Default.encodeToString(ProjectAndLocation.getSerializer(), pal)
+                );
+                writer.close();
+            } catch (IOException e) {
+            }
+
             UiUtilsKt.switchView(self, new Editor(p));
         } else {
             JOptionPane.showMessageDialog(self, "Unable to find the specified location!");
