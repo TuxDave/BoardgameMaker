@@ -77,6 +77,11 @@ class Project(
             }
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        if(other !is Project) return false
+        return name == other.name && description == other.description
+    }
 }
 
 class ProjectException(msg: String = "") : RuntimeException(msg)

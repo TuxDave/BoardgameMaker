@@ -5,10 +5,8 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import it.spaghetticode.bgm.core.Project;
 import it.spaghetticode.bgm.core.ProjectException;
-import it.spaghetticode.bgm.editor.MainKt;
-import it.spaghetticode.bgm.editor.UiUtilsKt;
+import it.spaghetticode.bgm.editor.*;
 import it.spaghetticode.bgm.editor.dialogs.NewProjectDialog;
-import  it.spaghetticode.bgm.editor.bgmFileFilter;
 
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
@@ -27,7 +25,7 @@ public class Launcher extends JFrame {
     private JButton newButton;
     private JButton openButton;
     private JButton settingsButton;
-    private JList<String> list1;
+    private JList<Project> list1;
 
     public Launcher() throws HeadlessException {
         super();
@@ -41,13 +39,13 @@ public class Launcher extends JFrame {
         openButton.addActionListener(l);
 
         {
-            DefaultListModel<String> m = new DefaultListModel<String>();
-            for (String p : MainKt.getRecentProjects()) {
+            DefaultListModel<Project> m = new DefaultListModel<Project>();
+            list1.setCellRenderer(new ProjectListRenderer());
+            for (ProjectAndLocation p : MainKt.getRecentProjects()) {
                 try {
-                    m.addElement(Project.open(new File(p)).getName());
-                    // TODO: 29/12/22 aggiungere solo una volta ai recenti quando si apre più volte un progetto
-                    //aggiungere l'apertura da recente (easy)
-                    //rimuovere dai recenti (forse conviene fare un custom renderer per i Project in modo da avere semplice la location)
+                    m.addElement(p.getProject());
+                    // TODO: 29/12/22 aggiungere l'apertura da recente (easy)
+                    //rimuovere dai recenti
                 } catch (Exception e) {
                     e.printStackTrace();
 //                    MainKt.getRecentProjects().remove(p); //ConcurrentModificationException??
@@ -155,7 +153,9 @@ public class Launcher extends JFrame {
                     return;
                 }
             }
-            MainKt.getRecentProjects().add(p.getLocation().getAbsolutePath() + "/" + p.getName() + ".bgm");
+            MainKt.getRecentProjects().add(
+                    new ProjectAndLocation(p, location.getAbsolutePath())
+            );
             MainKt.updateRecentFile();
             UiUtilsKt.switchView(self, new Editor(p));
         } else {
