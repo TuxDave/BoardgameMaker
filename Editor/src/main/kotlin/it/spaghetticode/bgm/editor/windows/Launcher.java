@@ -9,14 +9,17 @@ import it.spaghetticode.bgm.editor.*;
 import it.spaghetticode.bgm.editor.dialogs.NewProjectDialog;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.MouseAdapter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ConcurrentModificationException;
 import java.util.Locale;
 
 public class Launcher extends JFrame {
@@ -25,7 +28,9 @@ public class Launcher extends JFrame {
     private JButton newButton;
     private JButton openButton;
     private JButton settingsButton;
-    private JList<Project> list1;
+    private JList<Project> recentList;
+    private JButton openRecentButton;
+    private JButton removeRecentButton;
 
     public Launcher() throws HeadlessException {
         super();
@@ -37,25 +42,30 @@ public class Launcher extends JFrame {
         newButton.addActionListener(l);
         settingsButton.addActionListener(l);
         openButton.addActionListener(l);
+        recentList.addListSelectionListener(l);
+        openRecentButton.addActionListener(l);
+        removeRecentButton.addActionListener(l);
 
         {
             DefaultListModel<Project> m = new DefaultListModel<Project>();
-            list1.setCellRenderer(new ProjectListRenderer());
+            recentList.setCellRenderer(new ProjectListRenderer());
             for (ProjectAndLocation p : MainKt.getRecentProjects()) {
                 try {
                     m.addElement(p.getProject());
-                    // TODO: 29/12/22 aggiungere l'apertura da recente (easy)
-                    //rimuovere dai recenti
                 } catch (Exception e) {
                     e.printStackTrace();
 //                    MainKt.getRecentProjects().remove(p); //ConcurrentModificationException??
                 }
             }
             MainKt.updateRecentFile();
-            list1.setModel(m);
+            recentList.setModel(m);
         }
 
         self = this;
+        recentList.addMouseListener(new MouseAdapter() {
+        });
+        recentList.addFocusListener(new FocusAdapter() {
+        });
     }
 
     @Override
@@ -80,7 +90,7 @@ public class Launcher extends JFrame {
      */
     private void $$$setupUI$$$() {
         panel1 = new JPanel();
-        panel1.setLayout(new GridLayoutManager(4, 5, new Insets(5, 5, 5, 5), -1, -1));
+        panel1.setLayout(new GridLayoutManager(6, 6, new Insets(5, 5, 5, 5), -1, -1));
         final JLabel label1 = new JLabel();
         Font label1Font = this.$$$getFont$$$(null, -1, 22, label1.getFont());
         if (label1Font != null) label1.setFont(label1Font);
@@ -94,16 +104,31 @@ public class Launcher extends JFrame {
         panel1.add(openButton, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         settingsButton = new JButton();
         settingsButton.setText("Settings...");
-        panel1.add(settingsButton, new GridConstraints(3, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        panel1.add(settingsButton, new GridConstraints(5, 4, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
-        panel1.add(spacer1, new GridConstraints(3, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        panel1.add(spacer1, new GridConstraints(5, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final JScrollPane scrollPane1 = new JScrollPane();
-        panel1.add(scrollPane1, new GridConstraints(2, 0, 1, 5, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        list1 = new JList();
-        scrollPane1.setViewportView(list1);
+        panel1.add(scrollPane1, new GridConstraints(2, 0, 3, 5, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        recentList = new JList();
+        final DefaultListModel defaultListModel1 = new DefaultListModel();
+        recentList.setModel(defaultListModel1);
+        recentList.setToolTipText("recent projects");
+        scrollPane1.setViewportView(recentList);
+        openRecentButton = new JButton();
+        openRecentButton.setEnabled(false);
+        openRecentButton.setText("Open");
+        panel1.add(openRecentButton, new GridConstraints(2, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        removeRecentButton = new JButton();
+        removeRecentButton.setEnabled(false);
+        removeRecentButton.setText("Remove");
+        panel1.add(removeRecentButton, new GridConstraints(3, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer2 = new Spacer();
+        panel1.add(spacer2, new GridConstraints(4, 5, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
     }
 
-    /** @noinspection ALL */
+    /**
+     * @noinspection ALL
+     */
     private Font $$$getFont$$$(String fontName, int style, int size, Font currentFont) {
         if (currentFont == null) return null;
         String resultName;
@@ -123,7 +148,9 @@ public class Launcher extends JFrame {
         return fontWithFallback instanceof FontUIResource ? fontWithFallback : new FontUIResource(fontWithFallback);
     }
 
-    /** @noinspection ALL */
+    /**
+     * @noinspection ALL
+     */
     public JComponent $$$getRootComponent$$$() {
         return panel1;
     }
@@ -163,7 +190,7 @@ public class Launcher extends JFrame {
         }
     }
 
-    private class Listener implements ActionListener {
+    private class Listener implements ActionListener, ListSelectionListener {
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
@@ -205,7 +232,23 @@ public class Launcher extends JFrame {
                 }
             } else if (source == settingsButton) {
                 JOptionPane.showMessageDialog(self, "No settings available yet!");
+            } else if (source == openRecentButton) {
+                Project p = recentList.getSelectedValue();
+                openProject(p, p.getLocation());
+            } else if (source == removeRecentButton) {
+                Project p = recentList.getSelectedValue();
+                MainKt.getRecentProjects().remove(MainKt.getRecentProjects().stream().filter(projectAndLocation -> {
+                    return projectAndLocation.getProject().equals(p);
+                }).toArray()[0]);
+                MainKt.updateRecentFile();
+                ((DefaultListModel<Project>) (recentList.getModel())).removeElement(p);
             }
+        }
+
+        @Override
+        public void valueChanged(ListSelectionEvent listSelectionEvent) {
+            openRecentButton.setEnabled(true);
+            removeRecentButton.setEnabled(true);
         }
     }
 }

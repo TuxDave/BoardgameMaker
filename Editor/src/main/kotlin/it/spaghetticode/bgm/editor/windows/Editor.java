@@ -5,12 +5,17 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import it.spaghetticode.bgm.core.Project;
 import it.spaghetticode.bgm.core.ProjectException;
+import it.spaghetticode.bgm.editor.UiUtilsKt;
 import lombok.Getter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 
 public class Editor extends JFrame {
+    Editor self;
     private JPanel panel1;
     private JMenuItem fileMenu;
     private JButton button1;
@@ -52,17 +57,11 @@ public class Editor extends JFrame {
     public JComponent $$$getRootComponent$$$() {
         return panel1;
     }
-
-    /**
-     * Here is possible to add some menues if necessary and its functionallity
-     */
-    private void setupMenuBar() {
-    }
-
     @Getter
     private Project project;
 
     public Editor(Project p) throws HeadlessException {
+        self = this;
         setProject(p);
 
         setContentPane(panel1);
@@ -72,6 +71,19 @@ public class Editor extends JFrame {
 
         setupMenuBar();
         // TODO: 27/12/22 do open from latest still open proj 
+    }
+
+    /**
+     * Here is possible to add some menues if necessary and its functionallity
+     */
+    private void setupMenuBar() {
+        {
+            JMenuItem jmi = new JMenuItem("Close");
+            jmi.addActionListener(actionEvent -> {
+                UiUtilsKt.switchView(self, new Launcher());
+            });
+            fileMenu.add(jmi);
+        }
     }
 
     public void setProject(Project project) {
