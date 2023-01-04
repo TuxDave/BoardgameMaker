@@ -76,7 +76,7 @@ public class Properties extends JFrame {
         pack();
         setResizable(false);
 
-        // TODO: 04/01/23 Save and quit on exit by Apply button
+        // TODO: 04/01/23 Save and quit on exit by Apply button (decide if keep tracking what edited or rebase the entiere project overwriting all)
     }
 
     private Project project;
