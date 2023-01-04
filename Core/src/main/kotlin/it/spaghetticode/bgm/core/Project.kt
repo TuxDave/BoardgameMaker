@@ -37,12 +37,17 @@ class Project(
                 else throw e
             }
         }
+
+    @Serializable(with = GameSerializer::class)
+    val game: Game
     init {
         name = if (name != "") {
             name
         } else {
             "Project"
         }
+
+        game = Game()
     }
 
     fun save(path: String): Boolean {
