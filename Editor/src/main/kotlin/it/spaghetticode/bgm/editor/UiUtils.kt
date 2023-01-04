@@ -10,6 +10,8 @@ import javax.swing.JList
 import javax.swing.ListCellRenderer
 import javax.swing.filechooser.FileFilter
 
+const val MAX_PLAYER = 15
+
 fun switchView(from: JFrame, to: JFrame): Unit {
     Thread(){
         to.isVisible = true

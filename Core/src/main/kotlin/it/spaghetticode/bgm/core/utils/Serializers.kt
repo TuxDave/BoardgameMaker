@@ -7,12 +7,12 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
 @Serializable
-data class IntRangeSerializable(
+internal data class IntRangeSerializable(
     val start: Int,
     val endInclusive: Int
 )
 
-class IntRangeSerializer: KSerializer<IntRange>{
+internal class IntRangeSerializer: KSerializer<IntRange>{
     override val descriptor: SerialDescriptor = IntRangeSerializable.serializer().descriptor
 
     override fun serialize(encoder: Encoder, value: IntRange) {
