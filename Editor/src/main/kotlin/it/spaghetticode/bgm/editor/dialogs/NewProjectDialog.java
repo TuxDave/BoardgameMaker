@@ -149,7 +149,9 @@ public class NewProjectDialog extends JDialog {
         panel3.add(label5, new GridConstraints(4, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
-    /** @noinspection ALL */
+    /**
+     * @noinspection ALL
+     */
     public JComponent $$$getRootComponent$$$() {
         return contentPane;
     }

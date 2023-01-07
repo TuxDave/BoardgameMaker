@@ -1,6 +1,5 @@
 package it.spaghetticode.bgm.core
 
-import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import kotlinx.serialization.decodeFromString
@@ -10,9 +9,11 @@ import java.io.*
 import kotlin.RuntimeException
 
 @Serializable
-class Project(
+class Project @JvmOverloads constructor(
     var name: String,
-    val description: String,
+    var description: String,
+    @Serializable(with = GameSerializer::class)
+    var game: Game = Game()
 ) {
     @Transient //non serializza questo
     var location: File? = null
@@ -38,19 +39,15 @@ class Project(
             }
         }
 
-    @Serializable(with = GameSerializer::class)
-    val game: Game
     init {
         name = if (name != "") {
             name
         } else {
             "Project"
         }
-
-        game = Game()
     }
 
-    fun save(path: String): Boolean {
+    fun createAndSave(path: String): Boolean {
         var path = path
         if(!path.endsWith("/")) path += "/"
         try {
@@ -68,15 +65,50 @@ class Project(
         return true;
     }
 
+    fun save(): Boolean {
+        return try {
+            if(location == null) false
+            val projectFiles = mutableListOf<File>()
+            for(f in location!!.listFiles()!!){
+                if (f.name.endsWith(".bgm"))
+                    projectFiles.add(f)
+            }
+            if(projectFiles.size != 1)
+                false
+
+            val writer = BufferedWriter(FileWriter(projectFiles[0].absolutePath))
+            writer.write(Json.encodeToString(this))
+            writer.close()
+            true
+        } catch (e: IOException) {
+            e.printStackTrace()
+            false
+        }
+    }
+
     companion object {
         @JvmStatic
         @Throws(FileNotFoundException::class)
         fun open(file: File): Project {
             if (file.exists()) {
-                val reader = BufferedReader(FileReader(file))
-                val p = Json.decodeFromString<Project>(reader.readText())
-                reader.close()
-                return p
+                if(file.isFile){
+                    val reader = BufferedReader(FileReader(file))
+                    val p = Json.decodeFromString<Project>(reader.readText())
+                    reader.close()
+                    return p
+                }else{
+                    val projectFiles = mutableListOf<File>()
+                    for(f in file.listFiles()!!){
+                        if (f.name.endsWith(".bgm"))
+                            projectFiles.add(f)
+                    }
+                    if(projectFiles.size != 1)
+                        throw ProjectException("More then one project file in the same folder!")
+                    val reader = BufferedReader(FileReader(projectFiles[0]))
+                    val p = Json.decodeFromString<Project>(reader.readText())
+                    reader.close()
+                    return p
+                }
             } else {
                 throw FileNotFoundException("File '${file.absoluteFile}': not found")
             }

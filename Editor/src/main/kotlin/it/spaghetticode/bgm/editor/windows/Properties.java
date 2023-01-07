@@ -1,4 +1,4 @@
-package it.spaghetticode.bgm.editor.windows.properties_view;
+package it.spaghetticode.bgm.editor.windows;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
@@ -6,6 +6,7 @@ import com.intellij.uiDesigner.core.Spacer;
 import it.spaghetticode.bgm.core.Project;
 import it.spaghetticode.bgm.editor.UiUtilsKt;
 import it.spaghetticode.bgm.editor.components.JRangePicker;
+import kotlin.ranges.IntRange;
 
 import javax.swing.*;
 import java.awt.*;
@@ -64,7 +65,9 @@ public class Properties extends JFrame {
         panel1.add(spacer1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
     }
 
-    /** @noinspection ALL */
+    /**
+     * @noinspection ALL
+     */
     public JComponent $$$getRootComponent$$$() {
         return panel1;
     }
@@ -76,7 +79,8 @@ public class Properties extends JFrame {
         pack();
         setResizable(false);
 
-        // TODO: 04/01/23 Save and quit on exit by Apply button (decide if keep tracking what edited or rebase the entiere project overwriting all)
+        cancelButton.addActionListener(actionEvent -> dispose());
+        applyButton.addActionListener(actionEvent -> saveAndExit());
     }
 
     private Project project;
@@ -90,10 +94,26 @@ public class Properties extends JFrame {
     }
 
     private void loadData() {
+        System.out.println(project.getDescription());
         projectName.setText(project.getName());
         projectDescription.setText(project.getDescription());
 
         gamePlayerRange.setRange(new int[]{project.getGame().getPlayerRange().getStart(), project.getGame().getPlayerRange().getEndInclusive()});
+    }
+
+    private void saveAndExit() {
+        project.setName(projectName.getText());
+        project.setDescription(projectDescription.getText());
+
+        {
+            int[] range = gamePlayerRange.getRange();
+            project.getGame().setPlayerRange(new IntRange(range[0], range[1]));
+        }
+
+        if (!project.save()) {
+            JOptionPane.showMessageDialog(this, "Error while saving changes");
+        }
+        dispose();
     }
 
     private void createUIComponents() {

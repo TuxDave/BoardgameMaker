@@ -16,7 +16,7 @@ internal class IntRangeSerializer: KSerializer<IntRange>{
     override val descriptor: SerialDescriptor = IntRangeSerializable.serializer().descriptor
 
     override fun serialize(encoder: Encoder, value: IntRange) {
-        val irs: IntRangeSerializable = IntRangeSerializable(value.start, value.endInclusive)
+        val irs: IntRangeSerializable = IntRangeSerializable(value.first, value.last)
         encoder.encodeSerializableValue(IntRangeSerializable.serializer(), irs)
     }
 

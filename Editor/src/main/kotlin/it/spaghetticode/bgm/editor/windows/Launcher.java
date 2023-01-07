@@ -7,9 +7,6 @@ import it.spaghetticode.bgm.core.Project;
 import it.spaghetticode.bgm.core.ProjectException;
 import it.spaghetticode.bgm.editor.*;
 import it.spaghetticode.bgm.editor.dialogs.NewProjectDialog;
-import kotlinx.serialization.KSerializer;
-import kotlinx.serialization.Serializable;
-import kotlinx.serialization.SerializationStrategy;
 import kotlinx.serialization.json.Json;
 
 import javax.swing.*;
@@ -218,7 +215,7 @@ public class Launcher extends JFrame {
                 String location = d.getLocationPath();
                 if (p == null) return;
                 try {
-                    if (!p.save(location)) {
+                    if (!p.createAndSave(location)) {
                         throw new ProjectException("Unable to create project in specified location!");
                     }
                 } catch (ProjectException e) {

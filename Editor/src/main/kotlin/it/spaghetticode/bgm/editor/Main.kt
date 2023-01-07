@@ -27,10 +27,9 @@ fun main() {
         val temp = Json.decodeFromString<ProjectAndLocation>(
             FileReader(SETTINGS_PATH + OPENED_PATH).readText()
         )
-        val currentOpened = temp.project
+        val currentOpened = Project.open((File(temp.location)))
         currentOpened.location = File(temp.location)
-        val l = Launcher();
-        l.openProject(currentOpened, currentOpened.location)
+        Launcher().openProject(currentOpened, currentOpened.location)
     }catch(e: Exception){
         val l = Launcher()
         l.isVisible = true

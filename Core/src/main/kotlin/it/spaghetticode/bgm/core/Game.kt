@@ -14,26 +14,32 @@ class Game(
 ){
     var playerRange: IntRange = 1 .. 1
         set(value) {
-            if(value.start > 1 && value.endInclusive >= value.start){
-                field = value
+            field = if(value.first > 1 && value.last >= value.first){
+                value
             }else{
-                var start = max(value.start, 1)
-                var end = max(value.endInclusive, start)
-                field = start .. end
+                var start = max(value.first, 1)
+                var end = max(value.last, start)
+                start .. end
             }
         }
 
+    init {
+        this.playerRange = playerRange
+    }
     constructor() : this(1..1)
 
     internal constructor(gameSerializable: GameSerializable) : this(
-        gameSerializable.playerRange
+        playerRange = gameSerializable.playerRange,
     )
+    {
+        println(this.playerRange)
+    }
 }
 
 @Serializable
 internal data class GameSerializable(
     @Serializable(with = IntRangeSerializer::class)
-    val playerRange: IntRange,
+    val playerRange: IntRange, // TODO: learn why doesn't deserialize right
 )
 
 class GameSerializer: KSerializer<Game>{

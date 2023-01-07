@@ -6,7 +6,6 @@ import com.intellij.uiDesigner.core.Spacer;
 import it.spaghetticode.bgm.core.Project;
 import it.spaghetticode.bgm.editor.MainKt;
 import it.spaghetticode.bgm.editor.UiUtilsKt;
-import it.spaghetticode.bgm.editor.windows.properties_view.Properties;
 import lombok.Getter;
 
 import javax.swing.*;
@@ -46,13 +45,15 @@ public class Editor extends JFrame {
         fileMenu.setVerticalTextPosition(0);
         menuBar1.add(fileMenu, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
-        menuBar1.add(spacer1, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, new Dimension(50, -1), null, null, 0, false));
+        menuBar1.add(spacer1, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         projectMenu = new JMenu();
         projectMenu.setText("Project");
         menuBar1.add(projectMenu, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
     }
 
-    /** @noinspection ALL */
+    /**
+     * @noinspection ALL
+     */
     public JComponent $$$getRootComponent$$$() {
         return panel1;
     }
