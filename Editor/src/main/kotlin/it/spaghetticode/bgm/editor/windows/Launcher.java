@@ -48,8 +48,6 @@ public class Launcher extends JFrame {
         recentList.addListSelectionListener(l);
         openRecentButton.addActionListener(l);
         removeRecentButton.addActionListener(l);
-
-        // TODO: 07/01/23 aggiustare la lista dei recenti 
         
         {
             DefaultListModel<Project> m = new DefaultListModel<Project>();

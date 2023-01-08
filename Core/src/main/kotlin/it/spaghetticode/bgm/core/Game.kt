@@ -1,5 +1,7 @@
 package it.spaghetticode.bgm.core
 
+import com.sun.source.tree.BinaryTree
+import it.spaghetticode.bgm.core.game.TreeStructure
 import it.spaghetticode.bgm.core.utils.IntRangeSerializer
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.KSerializer
@@ -8,6 +10,7 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import java.lang.Integer.max
+import java.util.TreeSet
 
 class Game(
     playerRange: IntRange
@@ -31,9 +34,8 @@ class Game(
     internal constructor(gameSerializable: GameSerializable) : this(
         playerRange = gameSerializable.playerRange,
     )
-    {
-        println(this.playerRange)
-    }
+
+
 }
 
 @Serializable

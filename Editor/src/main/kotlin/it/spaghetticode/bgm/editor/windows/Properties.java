@@ -94,7 +94,6 @@ public class Properties extends JFrame {
     }
 
     private void loadData() {
-        System.out.println(project.getDescription());
         projectName.setText(project.getName());
         projectDescription.setText(project.getDescription());
 
