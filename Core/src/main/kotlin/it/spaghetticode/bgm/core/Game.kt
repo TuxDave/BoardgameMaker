@@ -1,19 +1,18 @@
 package it.spaghetticode.bgm.core
 
-import com.sun.source.tree.BinaryTree
-import it.spaghetticode.bgm.core.game.TreeStructure
+import it.spaghetticode.bgm.core.game.nodes.Folder
+import it.spaghetticode.bgm.core.game.nodes.Node
 import it.spaghetticode.bgm.core.utils.IntRangeSerializer
-import kotlinx.serialization.Contextual
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import java.lang.Integer.max
-import java.util.TreeSet
 
 class Game(
-    playerRange: IntRange
+    playerRange: IntRange = 1 .. 1,
+    val structure: Node = Folder()
 ){
     var playerRange: IntRange = 1 .. 1
         set(value) {
@@ -29,26 +28,26 @@ class Game(
     init {
         this.playerRange = playerRange
     }
-    constructor() : this(1..1)
 
     internal constructor(gameSerializable: GameSerializable) : this(
         playerRange = gameSerializable.playerRange,
+        structure = gameSerializable.structure
     )
-
-
 }
 
 @Serializable
 internal data class GameSerializable(
     @Serializable(with = IntRangeSerializer::class)
-    val playerRange: IntRange, // TODO: learn why doesn't deserialize right
+    val playerRange: IntRange,
+    val structure: Node
 )
 
 class GameSerializer: KSerializer<Game>{
     override val descriptor: SerialDescriptor = GameSerializable.serializer().descriptor
     override fun serialize(encoder: Encoder, value: Game) {
         val gameSerializable = GameSerializable(
-            value.playerRange
+            value.playerRange,
+            value.structure
         )
         encoder.encodeSerializableValue(GameSerializable.serializer(), gameSerializable)
     }
