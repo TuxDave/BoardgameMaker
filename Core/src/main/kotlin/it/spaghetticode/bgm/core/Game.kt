@@ -13,6 +13,9 @@ import java.lang.Integer.max
 class Game(
     playerRange: IntRange = 1 .. 1,
     val structure: Node = Folder()
+    // TODO: add the list of action (setup)
+    //create an extension function for a list of Action to execute each in sequence
+    //decide how to manage the setup (mutableList) because could create some problems in deserialization (different instance of the same object ecc)
 ){
     var playerRange: IntRange = 1 .. 1
         set(value) {
