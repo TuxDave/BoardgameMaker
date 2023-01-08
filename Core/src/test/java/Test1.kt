@@ -1,6 +1,14 @@
 import it.spaghetticode.bgm.core.annotations.GameData
+import it.spaghetticode.bgm.core.game.logic.Action
+import it.spaghetticode.bgm.core.game.logic.Edit
+import it.spaghetticode.bgm.core.game.nodes.Folder
+import it.spaghetticode.bgm.core.game.nodes.Node
+import kotlin.reflect.KMutableProperty
+import kotlin.reflect.KMutableProperty1
 import kotlin.reflect.full.declaredMemberProperties
+import kotlin.reflect.full.declaredMembers
 import kotlin.reflect.full.findAnnotation
+import kotlin.reflect.full.memberProperties
 
 //import kotlinx.serialization.Serializable
 //import kotlinx.serialization.decodeFromString
@@ -56,9 +64,14 @@ class A(
     @GameData var second: Int
 )
 
-fun main() {
-    val a = A(1,2)
-    for(mem in A::class.declaredMemberProperties.filter { GameData() in it.annotations }){
-        println(mem.get(a))
-    }
-}
+//fun main() {
+//    val n = Folder()
+//    println(n.name)
+//    val action = Edit(
+//        n,
+//        "name",
+//        17
+//    )
+//    action.execute()
+//    println(n.name)
+//}

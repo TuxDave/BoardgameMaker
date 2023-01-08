@@ -1,5 +1,6 @@
 package it.spaghetticode.bgm.core.game.nodes
 
+import it.spaghetticode.bgm.core.annotations.GameData
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 
@@ -13,7 +14,7 @@ private var IDS = 1
 sealed class Node @JvmOverloads constructor(
     val siblings: MutableList<Node> = mutableListOf(),
     val parent: Node? = null,
-    var name: String = this::class.simpleName!!,
+    var name: String = this::class.java.name.split(".").last().split("$").first(),
 ){
     @Transient
     val id: Int = IDS++

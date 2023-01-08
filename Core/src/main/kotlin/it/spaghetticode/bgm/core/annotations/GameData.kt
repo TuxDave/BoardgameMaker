@@ -1,5 +1,7 @@
 package it.spaghetticode.bgm.core.annotations
 
+import kotlinx.serialization.Serializable
+
 /**
  * used to mark a field as GameData
  * a GameData field can be edited from the user by an Action
