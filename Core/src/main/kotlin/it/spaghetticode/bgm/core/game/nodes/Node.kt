@@ -2,7 +2,8 @@ package it.spaghetticode.bgm.core.game.nodes
 
 import it.spaghetticode.bgm.core.annotations.GameData
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
+import kotlin.reflect.KType
+import kotlin.reflect.full.memberProperties
 
 private val ids = mutableListOf<Int>()
 private fun MutableList<Int>.generateNew(): Int{
@@ -23,6 +24,7 @@ sealed class Node @JvmOverloads constructor(
     val siblings: MutableList<Node> = mutableListOf(),
     val parent: Node? = null,
     val id: Int = ids.generateNew(),
+    @GameData
     var name: String = this::class.java.name.split(".").last().split("$").first(),
 ){
     init {
@@ -31,6 +33,15 @@ sealed class Node @JvmOverloads constructor(
 
     private fun register(): Unit{
         if(this !in registeredNodes) registeredNodes.add(this)
+    }
+
+    fun getAllGamePropertiesAndTypes(): Array<Pair<String, KType>> {
+        val arr = mutableListOf<Pair<String, KType>>()
+        val gd = GameData()
+        for(mem in this.javaClass.kotlin.memberProperties.filter { gd in it.annotations }){
+            arr.add(Pair(mem.name, mem.returnType))
+        }
+        return arr.toTypedArray()
     }
 
     override fun equals(other: Any?): Boolean {

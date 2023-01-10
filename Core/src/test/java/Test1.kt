@@ -1,8 +1,8 @@
-import it.spaghetticode.bgm.core.game.logic.Edit
+import it.spaghetticode.bgm.core.game.logic.NodeReader
+import it.spaghetticode.bgm.core.game.logic.Reader
 import it.spaghetticode.bgm.core.game.nodes.Folder
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.Json.Default.encodeToString
+import kotlin.reflect.javaType
+import kotlin.reflect.jvm.javaType
 
 //import kotlinx.serialization.Serializable
 //import kotlinx.serialization.decodeFromString
@@ -63,17 +63,8 @@ class B: A()
 
 fun main() {
     val n = Folder()
-    val n2 = Folder()
-    val action = Edit(
-        n.id,
-        "name",
-        17
-    )
-    val action2 = Edit(
-        n2.id,
-        "name",
-        19
-    )
-    println(Json.encodeToString(action))
-    println(Json.encodeToString(action2))
+    n.getAllGamePropertiesAndTypes().forEach {
+        println("${it.first} ${it.second}")
+    }
+    //val reader = NodeReader<n.getAllGamePropertiesAndTypes()[0].second.javaType>(n.id, "name") todo: know how to do this
 }

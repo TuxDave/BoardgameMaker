@@ -5,8 +5,7 @@ import it.spaghetticode.bgm.core.game.nodes.Node
 import it.spaghetticode.bgm.core.game.nodes.registeredNodes
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import org.jetbrains.annotations.PropertyKey
-import kotlin.reflect.*
+import kotlin.reflect.KMutableProperty
 import kotlin.reflect.full.memberProperties
 
 /**
