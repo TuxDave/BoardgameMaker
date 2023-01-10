@@ -1,14 +1,8 @@
-import it.spaghetticode.bgm.core.annotations.GameData
-import it.spaghetticode.bgm.core.game.logic.Action
 import it.spaghetticode.bgm.core.game.logic.Edit
 import it.spaghetticode.bgm.core.game.nodes.Folder
-import it.spaghetticode.bgm.core.game.nodes.Node
-import kotlin.reflect.KMutableProperty
-import kotlin.reflect.KMutableProperty1
-import kotlin.reflect.full.declaredMemberProperties
-import kotlin.reflect.full.declaredMembers
-import kotlin.reflect.full.findAnnotation
-import kotlin.reflect.full.memberProperties
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.Json.Default.encodeToString
 
 //import kotlinx.serialization.Serializable
 //import kotlinx.serialization.decodeFromString
@@ -59,19 +53,27 @@ import kotlin.reflect.full.memberProperties
 //    println(Json.decodeFromString<A>("{\"type\":\"B\",\"first\":\"s\",\"second\":\"s\"}"))
 //}
 
-class A(
-    var first: Int,
-    @GameData var second: Int
-)
+open class A
+class B: A()
 
 //fun main() {
-//    val n = Folder()
-//    println(n.name)
-//    val action = Edit(
-//        n,
-//        "name",
-//        17
-//    )
-//    action.execute()
-//    println(n.name)
+//    val b: A = B()
+//    println(b::class)
 //}
+
+fun main() {
+    val n = Folder()
+    val n2 = Folder()
+    val action = Edit(
+        n.id,
+        "name",
+        17
+    )
+    val action2 = Edit(
+        n2.id,
+        "name",
+        19
+    )
+    println(Json.encodeToString(action))
+    println(Json.encodeToString(action2))
+}

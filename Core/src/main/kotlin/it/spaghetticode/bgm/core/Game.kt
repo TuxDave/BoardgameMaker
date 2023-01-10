@@ -42,7 +42,7 @@ class Game(
 internal data class GameSerializable(
     @Serializable(with = IntRangeSerializer::class)
     val playerRange: IntRange,
-    val structure: Node
+    val structure: Node //this must be Deserialized before other structures using the same nodes as refer
 )
 
 class GameSerializer: KSerializer<Game>{
