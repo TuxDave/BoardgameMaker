@@ -25,9 +25,10 @@ sealed class Node @JvmOverloads constructor(
     val parent: Node? = null,
     val id: Int = ids.generateNew(),
     @GameData
-    var name: String = this::class.java.name.split(".").last().split("$").first(),
+    var name: String = "NULL_NAME_UNDEFINED",
 ){
     init {
+        if (name == "NULL_NAME_UNDEFINED") name = this::class.java.name.split(".").last().split("$").first()
         register()
     }
 

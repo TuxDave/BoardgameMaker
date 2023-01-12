@@ -19,7 +19,6 @@ class NodeReader <T> (
         return node?.let {
             try{
                 node.javaClass.kotlin.memberProperties.find { it.name == property }?.getter?.call(node) as T?
-
             }catch (e: ClassCastException) {null}
         }
     }
