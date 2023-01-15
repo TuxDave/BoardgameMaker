@@ -8,17 +8,17 @@ import kotlin.reflect.KType
 import kotlin.reflect.full.memberProperties
 
 @Serializable
-class NodeReader <T> (
+class NodeReader (
     var nodeId: Int,
     var property: String
-): Reader<T>(){
+): Reader(){
 
     private val node: Node? = registeredNodes.getById(nodeId)
 
-    override fun read(): T? {
+    override fun read(): Any? {
         return node?.let {
             try{
-                node.javaClass.kotlin.memberProperties.find { it.name == property }?.getter?.call(node) as T?
+                node.javaClass.kotlin.memberProperties.find { it.name == property }?.getter?.call(node)
             }catch (e: ClassCastException) {null}
         }
     }

@@ -1,8 +1,13 @@
 import it.spaghetticode.bgm.core.game.logic.NodeReader
 import it.spaghetticode.bgm.core.game.logic.Reader
+import it.spaghetticode.bgm.core.game.logic.getKTypeFromValue
 import it.spaghetticode.bgm.core.game.nodes.Folder
+import java.lang.reflect.Type
+import kotlin.reflect.cast
+import kotlin.reflect.full.createType
 import kotlin.reflect.javaType
 import kotlin.reflect.jvm.javaType
+import kotlin.reflect.typeOf
 
 //import kotlinx.serialization.Serializable
 //import kotlinx.serialization.decodeFromString
@@ -64,7 +69,12 @@ class B: A()
 fun main() {
     val n = Folder()
     n.getAllGamePropertiesAndTypes().forEach {
-        println("${it.first} ${it.second}")
+//        println("$it")
     }
-    //val reader = NodeReader<n.getAllGamePropertiesAndTypes()[0].second.javaType>(n.id, "name") todo: know how to do this
+    val reader = NodeReader(n.id, "nname")
+    val intero: Any = 5
+//    println(intero::class.createType() == typeOf<Int>())
+//    println(reader.read()!!::class.cast(reader.read())::class)
+    println(getKTypeFromValue(reader.read()))
+    // TODO: create overload that get type of attribute by class and attribute name
 }

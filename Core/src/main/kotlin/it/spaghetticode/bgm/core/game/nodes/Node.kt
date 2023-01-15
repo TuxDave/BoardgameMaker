@@ -36,11 +36,11 @@ sealed class Node @JvmOverloads constructor(
         if(this !in registeredNodes) registeredNodes.add(this)
     }
 
-    fun getAllGamePropertiesAndTypes(): Array<Pair<String, KType>> {
-        val arr = mutableListOf<Pair<String, KType>>()
+    fun getAllGamePropertiesAndTypes(): Array<String> {
+        val arr = mutableListOf<String>()
         val gd = GameData()
         for(mem in this.javaClass.kotlin.memberProperties.filter { gd in it.annotations }){
-            arr.add(Pair(mem.name, mem.returnType))
+            arr.add(mem.name)
         }
         return arr.toTypedArray()
     }
