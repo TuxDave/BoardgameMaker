@@ -78,4 +78,8 @@ fun main() {
 //    println(reader.read()!!::class.cast(reader.read())::class)
     println(getKTypeFromValue(reader.read()))
     println(getKTypeFromClassAttributeName(n::class.createType(), "name"))
+    println(n.isEmpty)
+    n.siblings.add(n)
+    println(n.isEmpty)
+
 }
