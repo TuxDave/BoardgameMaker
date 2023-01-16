@@ -1,5 +1,6 @@
 import it.spaghetticode.bgm.core.game.logic.NodeReader
 import it.spaghetticode.bgm.core.game.logic.Reader
+import it.spaghetticode.bgm.core.game.logic.getKTypeFromClassAttributeName
 import it.spaghetticode.bgm.core.game.logic.getKTypeFromValue
 import it.spaghetticode.bgm.core.game.nodes.Folder
 import java.lang.reflect.Type
@@ -76,5 +77,5 @@ fun main() {
 //    println(intero::class.createType() == typeOf<Int>())
 //    println(reader.read()!!::class.cast(reader.read())::class)
     println(getKTypeFromValue(reader.read()))
-    // TODO: create overload that get type of attribute by class and attribute name
+    println(getKTypeFromClassAttributeName(n::class.createType(), "name"))
 }
