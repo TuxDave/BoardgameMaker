@@ -3,6 +3,7 @@ import it.spaghetticode.bgm.core.game.logic.Reader
 import it.spaghetticode.bgm.core.game.logic.getKTypeFromClassAttributeName
 import it.spaghetticode.bgm.core.game.logic.getKTypeFromValue
 import it.spaghetticode.bgm.core.game.nodes.Folder
+import it.spaghetticode.bgm.core.utils.Size2D
 import java.lang.reflect.Type
 import kotlin.reflect.cast
 import kotlin.reflect.full.createType
@@ -68,18 +69,20 @@ class B: A()
 //}
 
 fun main() {
-    val n = Folder()
-    n.getAllGamePropertiesAndTypes().forEach {
-//        println("$it")
-    }
-    val reader = NodeReader(n.id, "nname")
-    val intero: Any = 5
-//    println(intero::class.createType() == typeOf<Int>())
-//    println(reader.read()!!::class.cast(reader.read())::class)
-    println(getKTypeFromValue(reader.read()))
-    println(getKTypeFromClassAttributeName(n::class.createType(), "name"))
-    println(n.isEmpty)
-    n.siblings.add(n)
-    println(n.isEmpty)
-
+//    val n = Folder()
+//    n.getAllGamePropertiesAndTypes().forEach {
+////        println("$it")
+//    }
+//    val reader = NodeReader(n.id, "nname")
+//    val intero: Any = 5
+////    println(intero::class.createType() == typeOf<Int>())
+////    println(reader.read()!!::class.cast(reader.read())::class)
+//    println(getKTypeFromValue(reader.read()))
+//    println(getKTypeFromClassAttributeName(n::class.createType(), "name"))
+//    println(n.isEmpty)
+//    n.siblings.add(n)
+//    println(n.isEmpty)7
+    val s = Size2D(10,-32)
+    s.setHeight(-23)
+    println(s.getHeight())
 }

@@ -20,6 +20,7 @@ fun MutableList<Action>.execute(): Unit {
 class Game(
     playerRange: IntRange = 1 .. 1,
     val structure: Node = Folder(),
+    val background: Folder = Folder(),
     val setup: MutableList<Action> = mutableListOf()
 ){
     var playerRange: IntRange = 1 .. 1
@@ -49,6 +50,7 @@ internal data class GameSerializable(
     @Serializable(with = IntRangeSerializer::class)
     val playerRange: IntRange,
     val structure: Node, //this must be Deserialized before other structures using the same nodes as refer
+    val background: Folder, //this must be Deserialized before other structures using the same nodes as refer
     val setup: MutableList<Action>
 )
 
@@ -58,6 +60,7 @@ class GameSerializer: KSerializer<Game>{
         val gameSerializable = GameSerializable(
             value.playerRange,
             value.structure,
+            value.background,
             value.setup
         )
         encoder.encodeSerializableValue(GameSerializable.serializer(), gameSerializable)
