@@ -2,7 +2,10 @@ import it.spaghetticode.bgm.core.game.logic.NodeReader
 import it.spaghetticode.bgm.core.game.logic.Reader
 import it.spaghetticode.bgm.core.game.logic.getKTypeFromClassAttributeName
 import it.spaghetticode.bgm.core.game.logic.getKTypeFromValue
+import it.spaghetticode.bgm.core.game.nodes.Card
+import it.spaghetticode.bgm.core.game.nodes.Deck
 import it.spaghetticode.bgm.core.game.nodes.Folder
+import it.spaghetticode.bgm.core.game.nodes.Seed
 import it.spaghetticode.bgm.core.utils.Size2D
 import java.lang.reflect.Type
 import kotlin.reflect.cast
@@ -68,21 +71,38 @@ class B: A()
 //    println(b::class)
 //}
 
+//fun main() {
+////    val n = Folder()
+////    n.getAllGamePropertiesAndTypes().forEach {
+//////        println("$it")
+////    }
+////    val reader = NodeReader(n.id, "nname")
+////    val intero: Any = 5
+//////    println(intero::class.createType() == typeOf<Int>())
+//////    println(reader.read()!!::class.cast(reader.read())::class)
+////    println(getKTypeFromValue(reader.read()))
+////    println(getKTypeFromClassAttributeName(n::class.createType(), "name"))
+////    println(n.isEmpty)
+////    n.siblings.add(n)
+////    println(n.isEmpty)7
+//    val s = Size2D(10,-32)
+//    s.setHeight(-23)
+//    println(s.getHeight())
+//}
+
 fun main() {
-//    val n = Folder()
-//    n.getAllGamePropertiesAndTypes().forEach {
-////        println("$it")
-//    }
-//    val reader = NodeReader(n.id, "nname")
-//    val intero: Any = 5
-////    println(intero::class.createType() == typeOf<Int>())
-////    println(reader.read()!!::class.cast(reader.read())::class)
-//    println(getKTypeFromValue(reader.read()))
-//    println(getKTypeFromClassAttributeName(n::class.createType(), "name"))
-//    println(n.isEmpty)
-//    n.siblings.add(n)
-//    println(n.isEmpty)7
-    val s = Size2D(10,-32)
-    s.setHeight(-23)
-    println(s.getHeight())
+    val deck = Deck(
+        "prova",
+        cards = mutableListOf(
+            Card(
+                1,
+                "picche",
+                "descrizione",
+            )
+        ),
+        seeds = mutableListOf(
+            Seed("picche")
+        )
+    )
+    println(deck.cards[0].seed)
 }
