@@ -1,6 +1,6 @@
 package it.spaghetticode.bgm.core.game.player
 
-import it.spaghetticode.bgm.core.game.logic.Action
+import it.spaghetticode.bgm.core.game.logic.action.unit.Action
 import it.spaghetticode.bgm.core.game.logic.condition.Condition
 import kotlinx.serialization.Serializable
 

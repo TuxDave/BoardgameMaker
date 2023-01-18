@@ -1,10 +1,9 @@
-package it.spaghetticode.bgm.core.game.logic
+package it.spaghetticode.bgm.core.game.logic.action.reader
 
 import it.spaghetticode.bgm.core.game.nodes.Node
 import it.spaghetticode.bgm.core.game.nodes.getById
 import it.spaghetticode.bgm.core.game.nodes.registeredNodes
 import kotlinx.serialization.Serializable
-import kotlin.reflect.KType
 import kotlin.reflect.full.memberProperties
 
 @Serializable

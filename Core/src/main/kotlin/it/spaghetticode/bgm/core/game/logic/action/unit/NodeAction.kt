@@ -1,4 +1,4 @@
-package it.spaghetticode.bgm.core.game.logic
+package it.spaghetticode.bgm.core.game.logic.action.unit
 
 import kotlinx.serialization.Serializable
 

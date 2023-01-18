@@ -1,7 +1,13 @@
+import it.spaghetticode.bgm.core.game.logic.action.reader.IntConstant
 import it.spaghetticode.bgm.core.game.logic.condition.ComparationType
 import it.spaghetticode.bgm.core.game.nodes.Card
 import it.spaghetticode.bgm.core.game.nodes.Deck
+import it.spaghetticode.bgm.core.game.nodes.Node
 import it.spaghetticode.bgm.core.game.nodes.Seed
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import kotlin.reflect.full.createType
+import kotlin.reflect.typeOf
 
 //import kotlinx.serialization.Serializable
 //import kotlinx.serialization.decodeFromString
@@ -79,21 +85,26 @@ class B: A()
 //    println(s.getHeight())
 //}
 
+//fun main() {
+//    val deck = Deck(
+//        "prova",
+//        cards = mutableListOf(
+//            Card(
+//                1,
+//                "picche",
+//                "descrizione",
+//            )
+//        ),
+//        seeds = mutableListOf(
+//            Seed("picche")
+//        )
+//    )
+//    println(deck.cards[0].seed)
+//    val t = ComparationType.LESS_EQUALS_THAN
+//    println(t)
+//}
+
 fun main() {
-    val deck = Deck(
-        "prova",
-        cards = mutableListOf(
-            Card(
-                1,
-                "picche",
-                "descrizione",
-            )
-        ),
-        seeds = mutableListOf(
-            Seed("picche")
-        )
-    )
-    println(deck.cards[0].seed)
-    val t = ComparationType.LESS_EQUALS_THAN
-    println(t)
+    val constant: IntConstant = IntConstant(5)
+    println(Json.encodeToString(constant))
 }

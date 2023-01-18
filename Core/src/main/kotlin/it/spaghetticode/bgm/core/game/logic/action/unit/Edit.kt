@@ -1,4 +1,4 @@
-package it.spaghetticode.bgm.core.game.logic
+package it.spaghetticode.bgm.core.game.logic.action.unit
 
 import it.spaghetticode.bgm.core.annotations.GameData
 import it.spaghetticode.bgm.core.game.nodes.Node

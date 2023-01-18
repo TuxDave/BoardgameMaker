@@ -2,7 +2,7 @@ package it.spaghetticode.bgm.core
 
 import it.spaghetticode.bgm.core.game.nodes.Folder
 import it.spaghetticode.bgm.core.game.nodes.Node
-import it.spaghetticode.bgm.core.game.logic.Action
+import it.spaghetticode.bgm.core.game.logic.action.unit.Action
 import it.spaghetticode.bgm.core.game.player.Role
 import it.spaghetticode.bgm.core.utils.IntRangeSerializer
 import kotlinx.serialization.KSerializer

@@ -1,9 +1,8 @@
-package it.spaghetticode.bgm.core.game.logic
+package it.spaghetticode.bgm.core.game.logic.action.reader
 
 import kotlinx.serialization.Serializable
 import kotlin.reflect.KType
 import kotlin.reflect.full.createType
-import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.javaType
 
