@@ -6,4 +6,8 @@ import kotlinx.serialization.Serializable
 class Folder(): Node(){
     val isEmpty: Boolean
         get() {return siblings.isEmpty()}
+
+    constructor(_name: String): this(){
+        this.name = _name
+    }
 }

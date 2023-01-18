@@ -3,6 +3,7 @@ package it.spaghetticode.bgm.core
 import it.spaghetticode.bgm.core.game.nodes.Folder
 import it.spaghetticode.bgm.core.game.nodes.Node
 import it.spaghetticode.bgm.core.game.logic.Action
+import it.spaghetticode.bgm.core.game.player.Role
 import it.spaghetticode.bgm.core.utils.IntRangeSerializer
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
@@ -19,8 +20,12 @@ fun MutableList<Action>.execute(): Unit {
 
 class Game(
     playerRange: IntRange = 1 .. 1,
-    val structure: Node = Folder(),
-    val background: Folder = Folder(),
+    val roles: MutableList<Role> = mutableListOf(),
+    val structure: Node = Folder("root"),
+    /**
+     * folder containing all the non-visible object (like data structures ecc)
+     */
+    val background: Folder = Folder("bg_root"),
     val setup: MutableList<Action> = mutableListOf()
 ){
     var playerRange: IntRange = 1 .. 1

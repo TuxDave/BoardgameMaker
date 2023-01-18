@@ -1,18 +1,7 @@
-import it.spaghetticode.bgm.core.game.logic.NodeReader
-import it.spaghetticode.bgm.core.game.logic.Reader
-import it.spaghetticode.bgm.core.game.logic.getKTypeFromClassAttributeName
-import it.spaghetticode.bgm.core.game.logic.getKTypeFromValue
+import it.spaghetticode.bgm.core.game.logic.condition.ComparationType
 import it.spaghetticode.bgm.core.game.nodes.Card
 import it.spaghetticode.bgm.core.game.nodes.Deck
-import it.spaghetticode.bgm.core.game.nodes.Folder
 import it.spaghetticode.bgm.core.game.nodes.Seed
-import it.spaghetticode.bgm.core.utils.Size2D
-import java.lang.reflect.Type
-import kotlin.reflect.cast
-import kotlin.reflect.full.createType
-import kotlin.reflect.javaType
-import kotlin.reflect.jvm.javaType
-import kotlin.reflect.typeOf
 
 //import kotlinx.serialization.Serializable
 //import kotlinx.serialization.decodeFromString
@@ -105,4 +94,6 @@ fun main() {
         )
     )
     println(deck.cards[0].seed)
+    val t = ComparationType.LESS_EQUALS_THAN
+    println(t)
 }
