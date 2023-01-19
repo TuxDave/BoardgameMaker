@@ -2,7 +2,6 @@ package it.spaghetticode.bgm.core.game.nodes
 
 import it.spaghetticode.bgm.core.annotations.GameData
 import kotlinx.serialization.Serializable
-import kotlin.reflect.KType
 import kotlin.reflect.full.memberProperties
 
 private val ids = mutableListOf<Int>()

@@ -1,7 +1,7 @@
 package it.spaghetticode.bgm.core.game.logic.condition
 
-import kotlinx.serialization.Serializable
 import it.spaghetticode.bgm.core.game.logic.action.reader.Reader
+import kotlinx.serialization.Serializable
 
 @Serializable
 class Comparation(

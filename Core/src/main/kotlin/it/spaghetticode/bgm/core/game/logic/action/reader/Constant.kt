@@ -1,8 +1,6 @@
 package it.spaghetticode.bgm.core.game.logic.action.reader
 
-import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.UseContextualSerialization
 
 /**
  * easily cast the read() return to Int
