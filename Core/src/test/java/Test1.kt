@@ -1,4 +1,4 @@
-import it.spaghetticode.bgm.core.game.logic.action.reader.IntConstant
+import it.spaghetticode.bgm.core.game.logic.action.reader.DoubleConstant
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -98,6 +98,6 @@ class B: A()
 //}
 
 fun main() {
-    val constant: IntConstant = IntConstant(5)
+    val constant: DoubleConstant = DoubleConstant(5.0)
     println(Json.encodeToString(constant))
 }

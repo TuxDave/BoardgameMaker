@@ -1,17 +1,25 @@
 package it.spaghetticode.bgm.core.game.logic.action.reader
 
 import kotlinx.serialization.Serializable
+import kotlin.Double
 
 /**
- * easily cast the read() return to Int
+ * easily cast the read()'s return to Int
  */
 @Serializable
-class IntConstant(
-    var value: Int
+class DoubleConstant(
+    var value: Double
 ) : Reader(){
     override fun read(): Any {
         return value
     }
 }
 
-// TODO: create for strings and double 
+@Serializable
+class StringConstant(
+    var value: String
+): Reader(){
+    override fun read(): Any {
+        return value
+    }
+}
