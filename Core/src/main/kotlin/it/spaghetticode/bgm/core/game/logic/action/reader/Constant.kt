@@ -1,7 +1,6 @@
 package it.spaghetticode.bgm.core.game.logic.action.reader
 
 import kotlinx.serialization.Serializable
-import kotlin.Double
 
 /**
  * easily cast the read()'s return to Int
