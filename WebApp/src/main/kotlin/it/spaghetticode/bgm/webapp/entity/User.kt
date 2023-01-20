@@ -29,6 +29,5 @@ class User() {
         mappedBy = "admin",
         fetch = FetchType.LAZY
     )
-    @ToString.Exclude
     var games: List<Game> = listOf()
 }
