@@ -9,7 +9,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Editor" />
         <module name="Core" />
+        <module name="WebApp" />
       </profile>
     </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="WebApp" options="-parameters" />
+    </option>
   </component>
 </project>
