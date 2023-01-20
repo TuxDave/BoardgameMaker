@@ -1,0 +1,3 @@
+login page (all clear without encryption till now)
+see our games (with edit permission on it)
+copy game-code to start game from the client
