@@ -7,17 +7,17 @@ import lombok.EqualsAndHashCode
 @Entity(name = "Game")
 @Table(name = "GAME")
 @EqualsAndHashCode
-class Game {
+data class Game @JvmOverloads constructor(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    var id: Long = 0
+    var id: Long = 0,
 
     @NotNull(message = "The game can't be null")
-    lateinit var gameData: ByteArray
+    var gameData: ByteArray = byteArrayOf(),
 
     var description: String? = null
-
+) {
     @NotNull(message = "The admin of the game can't be null")
     @ManyToOne(
         fetch = FetchType.EAGER,

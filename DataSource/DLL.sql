@@ -3,32 +3,30 @@ CREATE DATABASE BoardgameMaker CHAR SET UTF8 COLLATE utf8_general_ci;
 
 USE BoardgameMaker;
 
-CREATE TABLE USER(
-                     id BIGINT UNSIGNED NOT NULL,
-                     username VARCHAR(80) NOT NULL,
-                     password VARCHAR(300) NOT NULL
+CREATE TABLE USER
+(
+    id       BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    username VARCHAR(80)     NOT NULL,
+    password VARCHAR(300)    NOT NULL
 );
 
-CREATE TABLE GAME(
-                     id BIGINT UNSIGNED NOT NULL,
-                     gameData LONGBLOB NOT NULL,
-                     description TEXT NOT NULL,
-                     idUserAdmin BIGINT UNSIGNED NOT NULL
+CREATE TABLE GAME
+(
+    id          BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    gameData    LONGBLOB        NOT NULL,
+    description TEXT            NOT NULL,
+    idUserAdmin BIGINT UNSIGNED NOT NULL
 );
 
 
 ALTER TABLE USER
-    ADD CONSTRAINT PK
-        PRIMARY KEY (id),
     ADD CONSTRAINT UK_USER_1_USERNAME
         UNIQUE (username);
 
 ALTER TABLE GAME
-    ADD CONSTRAINT PK
-        PRIMARY KEY (id),
     ADD CONSTRAINT FK_GAME_1_USER
         FOREIGN KEY (idUserAdmin)
-            REFERENCES USER(id)
+            REFERENCES USER (id)
             ON DELETE CASCADE
             ON UPDATE CASCADE;
 
@@ -43,5 +41,5 @@ DROP USER IF EXISTS BoardgameMaker_Web;
 CREATE USER BoardgameMaker_Web
     IDENTIFIED BY "bgm_w";
 GRANT SHOW VIEW ON BoardgameMaker.* TO BoardgameMaker_Web;
-GRANT ALL ON BoardgameMaker.USER TO BoardgameMaker_Master;
-GRANT ALL ON BoardgameMaker.GAME TO BoardgameMaker_Master;
+GRANT ALL ON BoardgameMaker.USER TO BoardgameMaker_Web;
+GRANT ALL ON BoardgameMaker.GAME TO BoardgameMaker_Web;
