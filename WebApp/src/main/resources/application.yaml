@@ -6,7 +6,7 @@ spring:
   datasource:
     username: BoardgameMaker_Web
     password: bgm_w
-    url: jdbc:mariadb://localhost:3306/BoardgameMaker
+    url: jdbc:mariadb://localhost:3306/BoardgameMaker?allowPublicKeyRetrieval=true&useSSL=false
   sql:
     init:
       mode: always
