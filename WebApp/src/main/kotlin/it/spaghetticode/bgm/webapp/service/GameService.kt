@@ -10,6 +10,8 @@ interface GameService{
     fun findById(id: Long): Game?
     fun findByAdminId(admin: Long): List<Game>
     fun save(game: Game): Unit
+    fun delete(game: Game): Unit
+    fun deleteById(id: Long): Unit
 }
 
 @Service
@@ -27,5 +29,13 @@ class GameServiceImpl: GameService{
 
     override fun save(game: Game) {
         gameRepository.saveAndFlush(game)
+    }
+
+    override fun delete(game: Game) {
+        gameRepository.delete(game)
+    }
+
+    override fun deleteById(id: Long) {
+        gameRepository.deleteById(id)
     }
 }
