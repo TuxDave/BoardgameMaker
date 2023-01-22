@@ -1,0 +1,17 @@
+<div th:fragment="login-status" class="navbar-item">
+  <div class="buttons">
+    <div th:if="${session.userId} == null">
+    <a th:href="@{/sigin}" class="button is-primary">
+      <strong>Sign up</strong>
+    </a>
+    <a th:href="@{/login}" class="button is-light">
+      Log in
+    </a>
+    </div>
+    <div th:unless="${session.userId} == null">
+      <a th:href="@{/logout}" class="button is-light">
+        Log Out
+      </a>
+    </div>
+  </div>
+</div>

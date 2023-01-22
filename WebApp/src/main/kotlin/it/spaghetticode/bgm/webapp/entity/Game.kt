@@ -2,11 +2,9 @@ package it.spaghetticode.bgm.webapp.entity
 
 import jakarta.persistence.*
 import jakarta.validation.constraints.NotNull
-import lombok.EqualsAndHashCode
 
 @Entity(name = "Game")
 @Table(name = "GAME")
-@EqualsAndHashCode
 data class Game @JvmOverloads constructor(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

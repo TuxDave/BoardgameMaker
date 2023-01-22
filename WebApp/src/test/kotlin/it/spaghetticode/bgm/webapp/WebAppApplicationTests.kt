@@ -35,7 +35,7 @@ class WebAppApplicationTests {
 //
 //        gameRepository.saveAndFlush(game1)
 
-        println(userService.findByGameNullable(gameService.findById(1)))
+//        println(userService.findByGameNullable(gameService.findById(1)))
     }
 
 }

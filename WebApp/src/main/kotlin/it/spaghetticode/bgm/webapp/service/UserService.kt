@@ -11,6 +11,7 @@ interface UserService {
     fun findById(id: Long): User?
     fun findByGameNullable(game: Game?): User?
     fun findByGame(game: Game): User
+    fun findByUsername(username: String): User?
     fun save(user: User): Unit
 }
 
@@ -31,6 +32,10 @@ class UserServiceImpl: UserService{
 
     override fun findByGame(game: Game): User {
         return findById(game.admin.id)!!
+    }
+
+    override fun findByUsername(username: String): User? {
+        return userRepository.findUserByUsername(username)
     }
 
     override fun save(user: User) {
