@@ -3,7 +3,7 @@
 <head>
     <meta charset = "UTF-8" />
     <link href = "css/bulma.min.css" rel = "stylesheet"/>
-    <title>Boardgame Maker</title>
+    <title>Log In</title>
 </head>
 <body>
     <div th:replace="fragments/header :: header"></div>
@@ -14,10 +14,10 @@
             <form
                     class="is-centered is-medium is-spaced"
                     action="#"
-                    th:action="@{/loginAction}"
+                    th:action="@{/login}"
                     method="post"
             >
-                <input id="username" class="input" type="text" name="username" value="" placeholder="Username">
+                <input id="username" class="input" type="text" name="username" value="" placeholder="Username" >
                 <br>
                 <input id="password" class="input" type="password" name="password" value="" placeholder="Password">
                 <br>

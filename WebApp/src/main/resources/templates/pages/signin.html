@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset = "UTF-8" />
+  <link href = "css/bulma.min.css" rel = "stylesheet"/>
+  <title>Sign In</title>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="columns">
+  <div class="column is-one-fifth"></div>
+  <div class="is-centered column is-three-fifths">
+    <h1 class="title is-centered">Log In</h1>
+    <form
+            class="is-centered is-medium is-spaced"
+            action="#"
+            th:action="@{/signin}"
+            method="post"
+    >
+      <input id="username" class="input" type="text" name="username" value="" placeholder="Username">
+      <br>
+      <input id="password" class="input" type="password" name="password" value="" placeholder="Password">
+      <br>
+      <input id="passwordConfirm" class="input" type="password" name="passwordConfirm" value="" placeholder="Confirm Password">
+      <br>
+      <br>
+      <button class="button is-primary" type="submit">Sign In!</button>
+    </form>
+    <script th:if="${param.usernameIncorrect}"> //error username
+      document.getElementById("username").classList.add("is-danger")
+    console.log(document.cookie)
+      document.getElementById("username").value = document.cookie.split(";").find(value => value.replace(" ","").split("=")[0] == "signInUsername").split("=")[1]
+      alert("Username already in use or null!")
+    </script>
+    <script th:if="${param.passwordIncorrect}"> //error username
+      document.getElementById("username").value = document.cookie.split(";").find(value => value.replace(" ","").split("=")[0] == "signInUsername").split("=")[1]
+      document.getElementById("passwordConfirm").classList.add("is-danger")
+    alert("The password confirmation doesn't match with the first one or is null!")
+    </script>
+  </div>
+  <div class="column is-one-fifth"></div>
+</div>
+
+</body>
+</html>
