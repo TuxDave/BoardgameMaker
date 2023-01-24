@@ -1,6 +1,5 @@
 package it.spaghetticode.bgm.webapp
 
-import it.spaghetticode.bgm.webapp.repository.UserRepository
 import it.spaghetticode.bgm.webapp.service.UserService
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.*
-import java.awt.PageAttributes.MediaType
 
 @Controller("/")
 class MainController {
@@ -52,9 +50,12 @@ class MainController {
 
     @GetMapping("logout")
     fun logout(
-        response: HttpServletRequest
-    ): String {
-        response.session.removeAttribute("userId")
-        return "pages/index"
+        request: HttpServletRequest,
+        response: HttpServletResponse
+    ): Unit {
+        request.session.removeAttribute("userId")
+        response.sendRedirect("/")
     }
+
+    // TODO: why browser forgot the sessionId? 
 }
