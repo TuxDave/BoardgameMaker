@@ -27,8 +27,10 @@ class AuthController {
         @RequestParam("passwordIncorrect") passwordIncorrect: Int?,
         request: HttpServletRequest
     ): String {
+        request.setAttribute("title","Log In")
+        request.setAttribute("content","contents/login")
         request.setAttribute("usernameIncorrect", usernameIncorrect)
-        return "pages/login"
+        return "pages/base"
     }
 
     @PostMapping("login")
@@ -65,7 +67,9 @@ class AuthController {
         request: HttpServletRequest,
         response: HttpServletResponse
     ): String {
-        return "pages/signin"
+        request.setAttribute("title","Sign In")
+        request.setAttribute("content","contents/signin")
+        return "pages/base"
     }
 
     @PostMapping("signin")
