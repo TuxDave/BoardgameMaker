@@ -14,6 +14,7 @@ CREATE TABLE GAME
 (
     id          BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
     gameData    LONGBLOB        NOT NULL,
+    name        VARCHAR(50)     NOT NULL,
     description TEXT            NOT NULL,
     idUserAdmin BIGINT UNSIGNED NOT NULL
 );
