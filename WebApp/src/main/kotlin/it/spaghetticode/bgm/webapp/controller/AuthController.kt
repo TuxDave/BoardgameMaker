@@ -28,7 +28,7 @@ class AuthController {
         request: HttpServletRequest
     ): String {
         request.setAttribute("title","Log In")
-        request.setAttribute("content","contents/login")
+        request.setAttribute("content","contents/auth/login")
         request.setAttribute("usernameIncorrect", usernameIncorrect)
         return "pages/base"
     }
@@ -68,7 +68,7 @@ class AuthController {
         response: HttpServletResponse
     ): String {
         request.setAttribute("title","Sign In")
-        request.setAttribute("content","contents/signin")
+        request.setAttribute("content","contents/auth/signin")
         return "pages/base"
     }
 
