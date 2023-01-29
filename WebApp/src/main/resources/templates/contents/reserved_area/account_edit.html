@@ -1,0 +1,15 @@
+<div th:fragment="content" class="container is-fluid is-centered">
+  <br>
+  <br>
+  <h2 class="subtitle">Edit your account</h2>
+  <br>
+  <form th:action="@{/reserved/edit-account}" method="post">
+    <input class="input" type="text" name="usernameInput" th:value="${username}" placeholder="Choose Username...">
+    <br>
+    <br>
+    <input class="input" type="password" name="password1" value="" placeholder="Change Password (if you want)">
+    <input class="input" type="password" name="password2" placeholder="Confirm Password">
+    <br><br>
+    <button class="button is-pulled-right is-primary" type="submit">Update</button>
+  </form>
+</div>

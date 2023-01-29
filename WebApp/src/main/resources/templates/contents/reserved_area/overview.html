@@ -7,7 +7,7 @@
         }
     </style>
     <h1 class="title is-centered">Welcome <span th:text="${username}"></span>!</h1>
-    <a><h2 class="sub-title">Edit your account</h2></a>
+    <a th:href="@{/reserved/edit-account}"><h2 class="sub-title">Edit your account</h2></a>
     <br>
     <h2 class="subtitle is-primary">Game List</h2>
     <table class="table is-fullwidth is-striped is-hoverable">

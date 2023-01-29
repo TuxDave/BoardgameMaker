@@ -14,6 +14,8 @@ interface UserService {
     fun findByGame(game: Game): User
     fun findByUsername(username: String): User?
     fun save(user: User): Unit
+    fun updateUsername(user: User, username: String)
+    fun updatePassword(user: User, password: String)
 }
 
 @Service
@@ -45,4 +47,11 @@ class UserServiceImpl: UserService{
         userRepository.saveAndFlush(user)
     }
 
+    override fun updateUsername(user: User, username: String) {
+        userRepository.updateUserUsername(user.id, username)
+    }
+
+    override fun updatePassword(user: User, password: String) {
+        userRepository.updateUserPasswordHash(user.id, encoder.encode(password))
+    }
 }
