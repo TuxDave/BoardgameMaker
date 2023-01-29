@@ -27,6 +27,7 @@ class ReservedAreaController {
         request.setAttribute("content","contents/reserved_area/overview")
 
         request.setAttribute("username",user.username)
+        request.setAttribute("games", user.games)
 
         return "pages/base"
     }

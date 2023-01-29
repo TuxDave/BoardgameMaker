@@ -1,4 +1,30 @@
 <div th:fragment="content" class="container is is-four-fifths is-centered">
+    <style>
+        .Shorted{
+            max-width: 350px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+    </style>
     <h1 class="title is-centered">Welcome <span th:text="${username}"></span>!</h1>
-<!--    todo: add overview page body-->
+    <a><h2 class="sub-title">Edit your account</h2></a>
+    <table class="table is-fullwidth is-striped is-hoverable">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th class="Shorted">Description</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbod>
+            <tr th:each="game: ${games}">
+<!--                todo do things (classic crud)-->
+                <td th:text="${game.id}" />
+                <td th:text="${game.name}" />
+                <td class="Shorted" th:text="${game.description}" />
+                <td />
+            </tr>
+        </tbod>
+    </table>
 </div>
