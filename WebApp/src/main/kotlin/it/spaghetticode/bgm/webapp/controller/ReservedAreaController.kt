@@ -76,7 +76,6 @@ class ReservedAreaController {
                 return "redirect:/reserved/edit-account?passwordIncorrect=1"
             }
         }
-        // TODO: finish to refine 
         return "redirect:/reserved/overview"
     }
 

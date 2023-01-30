@@ -5,6 +5,8 @@ import kotlinx.serialization.Transient
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import net.lingala.zip4j.ZipFile
+import org.apache.commons.io.FileUtils
 import java.io.*
 
 @Serializable
@@ -111,6 +113,19 @@ class Project @JvmOverloads constructor(
             } else {
                 throw FileNotFoundException("File '${file.absoluteFile}': not found")
             }
+        }
+
+        @JvmStatic
+        @Synchronized
+        fun validateZipProject(zipBlob: ByteArray): Boolean {
+            val file = File(".temp")
+            file.delete()
+            file.createNewFile()
+            FileUtils.writeByteArrayToFile(file, zipBlob)
+            val zipFile = ZipFile(file)
+            //todo: unzip with zip4j https://stackoverflow.com/questions/9324933/what-is-a-good-java-library-to-zip-unzip-files
+//            zipFile.extractAll()
+            return true
         }
     }
 
