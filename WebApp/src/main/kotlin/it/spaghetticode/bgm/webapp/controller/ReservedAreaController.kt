@@ -59,12 +59,20 @@ class ReservedAreaController {
     ): String {
         val user = userService.findById(request.session.getAttribute("userId") as Long? ?: -1) ?: return "redirect:/login"
 
-        if(usernameInput != "" && usernameInput.lowercase() != user.username.lowercase()){
-            user.username
-            userService.updateUsername(user, usernameInput)
+        if(usernameInput == ""){
+            return "redirect:/reserved/edit-account?usernameIncorrect=1"
+        }else{
+            if(usernameInput.lowercase() != user.username.lowercase()){
+                userService.updateUsername(user, usernameInput)
+            }
         }
-        if(password1 != "" && password2 == password1){
-            userService.updatePassword(user, password1)
+
+        if(password1 != ""){
+            if(password2 == password1){
+                userService.updatePassword(user, password1)
+            }else{
+                return "redirect:/reserved/edit-account?passwordIncorrect=1"
+            }
         }
         // TODO: finish to refine 
         return "redirect:/reserved/overview"

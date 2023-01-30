@@ -12,4 +12,10 @@
     <br><br>
     <button class="button is-pulled-right is-primary" type="submit">Update</button>
   </form>
+  <script th:if="${param.usernameIncorrect}">
+    alert("Username not valid.")
+  </script>
+  <script th:if="${param.passwordIncorrect}">
+    alert("Password not valid.")
+  </script>
 </div>
