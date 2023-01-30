@@ -4,6 +4,10 @@ server:
     session:
       timeout: 86400
 spring:
+  servlet:
+    multipart:
+      max-file-size:
+        -1
   session:
     jdbc:
       initialize-schema: always

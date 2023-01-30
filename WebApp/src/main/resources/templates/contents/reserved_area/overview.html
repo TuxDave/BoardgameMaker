@@ -6,13 +6,6 @@
             overflow: hidden;
         }
     </style>
-    <script>
-        function hover(tag){
-            console.log(tag)
-            //todo: understand how to do this
-            tag.getElementById("actions").style.display = "block";
-        }
-    </script>
     <h1 class="title is-centered">Welcome <span th:text="${username}"></span>!</h1>
     <a th:href="@{/reserved/edit-account}"><h2 class="sub-title">Edit your account</h2></a>
     <br>
@@ -23,18 +16,19 @@
             <th>Id</th>
             <th>Name</th>
             <th class="Shorted">Description</th>
-            <th >Action</th>
+            <th >Actions</th>
         </tr>
         </thead>
         <tbody>
-            <tr onmouseover="hover(this)" th:each="game: ${games}">
-<!--                todo do things (classic crud)-->
-                <td th:text="${game.id}" />
-                <td th:text="${game.name}" />
-                <td class="Shorted" th:text="${game.description}" />
+            <tr th:each="game: ${games}">
+                <td th:text="${game.id}"></td>
+                <td th:text="${game.name}"></td>
+                <td class="Shorted" th:text="${game.description}"></td>
                 <td style="max-width: 200px">
-                    <div id="actions" class="container is-pulled-right">
-                        <button type="button" class="button">we</button>
+                    <div  class="container is-pulled-right">
+                        <a th:href="@{'/reserved/edit-game?gameId=' + ${game.id}}"><button type="button" class="button">
+                            <img width="16rem" src="/imgs/icons/cog.svg" ></img>
+                        </button></a>
                         <button type="button" class="button">we</button>
                         <button type="button" class="button">we</button>
                     </div>

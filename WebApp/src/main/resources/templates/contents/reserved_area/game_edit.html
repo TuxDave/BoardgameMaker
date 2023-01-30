@@ -1,0 +1,27 @@
+<div th:fragment="content" class="container is is-four-fifths is-centered">
+    <h1 class="title">Edit your game!</h1>
+    <form th:action="@{/reserved/edit-game}" method="post" enctype="multipart/form-data">>
+        <label class="label">
+            Name
+            <input class="input" type="text" style="margin-bottom: 20px" name="name" th:value="${game.name}">
+        </label>
+        <label class="label">
+            Description
+            <textarea class="textarea" type="text" style="margin-bottom: 20px" rows="7" name="description">[[${game.description}]]</textarea>
+        </label>
+        <div style="margin-bottom: 20px" class="file">
+            <label class="label">
+                <input class="file-input" type="file" style="margin-bottom: 20px" name="blob">
+                    <span class="file-cta">
+                      <span class="file-icon">
+                        <img src="/imgs/icons/upload.svg"></img>
+                      </span>
+                      <span class="file-label">
+                        Choose game's ZIP file to update
+                      </span>
+                    </span>
+            </label>
+        </div>
+        <button type="submit" class="button is-primary">Save</button>
+    </form>
+</div>
