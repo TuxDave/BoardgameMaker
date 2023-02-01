@@ -7,6 +7,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import net.lingala.zip4j.ZipFile
 import org.apache.commons.io.FileUtils
+import org.jetbrains.annotations.PropertyKey
 import java.io.*
 
 @Serializable
@@ -118,14 +119,30 @@ class Project @JvmOverloads constructor(
         @JvmStatic
         @Synchronized
         fun validateZipProject(zipBlob: ByteArray): Boolean {
-            val file = File(".temp")
+            var file = File(".temp")
             file.delete()
             file.createNewFile()
             FileUtils.writeByteArrayToFile(file, zipBlob)
             val zipFile = ZipFile(file)
-            //todo: unzip with zip4j https://stackoverflow.com/questions/9324933/what-is-a-good-java-library-to-zip-unzip-files
-//            zipFile.extractAll()
-            return true
+            val dest = System.getProperty("user.home") + "/.BoardgameMaker/core/tempExtract"
+//            File(dest).deleteRecursively()
+            if(zipFile.isValidZipFile){
+                zipFile.extractAll(dest)
+                file = File(dest)
+                file = file.listFiles()?.get(0) ?: file
+                if(file.isDirectory){
+                    try{
+                        Project.open(file)
+                        file.deleteRecursively()
+                    }catch (e: ProjectException){
+                        file.deleteRecursively()
+                        return false
+                    }
+                }else return false
+                return true
+            }else{
+                return false
+            }
         }
     }
 

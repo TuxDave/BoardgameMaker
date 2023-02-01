@@ -1,6 +1,6 @@
 <div th:fragment="content" class="container is is-four-fifths is-centered">
     <h1 class="title">Edit your game!</h1>
-    <form th:action="@{/reserved/edit-game}" method="post" enctype="multipart/form-data">>
+    <form th:action="@{/reserved/edit-game}" method="post" enctype="multipart/form-data">
         <label class="label">
             Name
             <input class="input" type="text" style="margin-bottom: 20px" name="name" th:value="${game.name}">

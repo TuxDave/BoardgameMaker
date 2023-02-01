@@ -1,5 +1,6 @@
 package it.spaghetticode.bgm.webapp.controller
 
+import it.spaghetticode.bgm.core.Project
 import it.spaghetticode.bgm.webapp.service.GameService
 import it.spaghetticode.bgm.webapp.service.UserService
 import jakarta.servlet.http.HttpServletRequest
@@ -123,13 +124,17 @@ class ReservedAreaController {
                 edit = true
             }
             blob?.let {
-                //TODO: check if is a ZIP within a game inside
-                game.gameData = blob.bytes
-                edit = true
+                if(!blob.bytes.contentEquals(ByteArray(0))){
+                    if(Project.validateZipProject(blob.bytes)){
+                        game.gameData = blob.bytes
+                        edit = true
+                    }
+                }
             }
             if(edit){
                 gameService.save(game)
                 request.session.removeAttribute("editingGameId")
+                // TODO: create errors on non valid data (blob)
             }
             return "redirect:/reserved/overview"
         } ?: "redirect:/reserved/overview"
