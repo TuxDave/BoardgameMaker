@@ -149,4 +149,17 @@ class ReservedAreaController {
             }
         } ?: "redirect:/reserved/overview"
     }
+
+    @GetMapping("create-game")
+    fun createGamePage(
+        request: HttpServletRequest,
+        response: HttpServletResponse
+    ): String {
+        val user = userService.findById(request.session.getAttribute("userId") as Long? ?: -1) ?: return "redirect:/login"
+
+        request.setAttribute("title", "Upload Game")
+        request.setAttribute("content","contents/reserved_area/game_create")
+
+        return "pages/base"
+    }
 }
