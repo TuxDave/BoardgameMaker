@@ -84,7 +84,8 @@ class ReservedAreaController {
     fun editGamePage(
         request: HttpServletRequest,
         response: HttpServletResponse,
-        @RequestParam("gameId") gameId: Long
+        @RequestParam("gameId") gameId: Long,
+        @RequestParam("blobIncorrect") blobIncorrect: Long?
     ): String {
         val user = userService.findById(request.session.getAttribute("userId") as Long? ?: -1) ?: return "redirect:/login"
 
@@ -93,10 +94,13 @@ class ReservedAreaController {
             if(game.admin == user){
                 request.setAttribute("title","Edit Game")
                 request.setAttribute("content","contents/reserved_area/game_edit")
-                println(game.description)
-                request.session.setAttribute("editingGameId", game.id)
 
+                blobIncorrect?.let {
+                    request.setAttribute("blobIncorrect", blobIncorrect)
+                }
+                request.session.setAttribute("editingGameId", game.id)
                 request.setAttribute("game", game)
+
                 return "pages/base"
             } else return "redirect:/reserved/overview"
         } ?: return "redirect:/reserved/overview"
@@ -123,20 +127,26 @@ class ReservedAreaController {
                 game.description = description
                 edit = true
             }
+            var blobError: Boolean = false
             blob?.let {
                 if(!blob.bytes.contentEquals(ByteArray(0))){
                     if(Project.validateZipProject(blob.bytes)){
                         game.gameData = blob.bytes
                         edit = true
+                    }else{
+                        blobError = true
                     }
                 }
             }
-            if(edit){
+            if(edit) {
                 gameService.save(game)
-                request.session.removeAttribute("editingGameId")
-                // TODO: create errors on non valid data (blob)
             }
-            return "redirect:/reserved/overview"
+            if(blobError){
+                return "redirect:/reserved/edit-game?gameId=${request.session.getAttribute("editingGameId") as Long}&blobIncorrect=1"
+            }else{
+                request.session.removeAttribute("editingGameId")
+                return "redirect:/reserved/overview"
+            }
         } ?: "redirect:/reserved/overview"
     }
 }
