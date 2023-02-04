@@ -1,1 +1,29 @@
-<div th:fragment="content"></div>
+<div th:fragment="content" class="container is-four-fifths is-centered">
+    <h1 style="margin-top: 15px; margin-bottom: 15px" class="title">Boardgame Maker</h1>
+    <form id="search-form" th:action="@{'/'}" method="get">
+        <div class="has-addons field">
+            <div class="control">
+                <input class="input" type="text" name="name" placeholder="Search for a Game">
+            </div>
+            <select id="selectCategory" name="scope" onchange="changePlaceholder()" class="control">
+                <option value="Game">Game</option>
+                <option value="Author">Author</option>
+            </select>
+            <div class="control">
+                <button type="submit" class="button is-info">
+                    <img src="/imgs/icons/search.svg" width="16rem">
+                </button>
+            </div>
+        </div>
+    </form>
+    <script>
+        function changePlaceholder(){
+            let select = document.getElementById("selectCategory")
+            if(select.value == "Game"){
+                document.getElementsByName("name")[0].placeholder = "Search for a Game"
+            }else{
+                document.getElementsByName("name")[0].placeholder = "Search for an Author"
+            }
+        }
+    </script>
+</div>
