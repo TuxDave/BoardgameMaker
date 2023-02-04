@@ -29,7 +29,9 @@
                         <a th:href="@{'/reserved/edit-game?gameId=' + ${game.id}}"><button type="button" class="button">
                             <img width="16rem" src="/imgs/icons/cog.svg" ></img>
                         </button></a>
-                        <button type="button" class="button">we</button>
+                        <a th:href="@{'/reserved/delete-game?gameId=' + ${game.id}}"><button type="button" class="button">
+                            <img width="16rem" src="/imgs/icons/trash.svg" ></img>
+                        </button></a>
                         <button type="button" class="button">we</button>
                     </div>
                 </td>

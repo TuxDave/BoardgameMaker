@@ -1,6 +1,7 @@
 package it.spaghetticode.bgm.webapp.controller
 
 import it.spaghetticode.bgm.core.Project
+import it.spaghetticode.bgm.webapp.entity.Game
 import it.spaghetticode.bgm.webapp.service.GameService
 import it.spaghetticode.bgm.webapp.service.UserService
 import jakarta.servlet.http.HttpServletRequest
@@ -153,13 +154,59 @@ class ReservedAreaController {
     @GetMapping("create-game")
     fun createGamePage(
         request: HttpServletRequest,
-        response: HttpServletResponse
+        response: HttpServletResponse,
+        @RequestParam("name") name: String?,
+        @RequestParam("description") description: String?,
+        @RequestParam("blobIncorrect") blobIncorrect: Int?
     ): String {
         val user = userService.findById(request.session.getAttribute("userId") as Long? ?: -1) ?: return "redirect:/login"
 
         request.setAttribute("title", "Upload Game")
         request.setAttribute("content","contents/reserved_area/game_create")
 
+        name?.let { request.setAttribute("name", name) }
+        description?.let { request.setAttribute("description", description) }
+        blobIncorrect?.let { request.setAttribute("blobIncorrect", blobIncorrect) }
+
         return "pages/base"
+    }
+
+    @PostMapping("create-game")
+    fun createGameAction(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        @RequestParam("name") name: String,
+        @RequestParam("description") description: String,
+        @RequestParam("blob") blob: MultipartFile
+    ): String {
+        val user = userService.findById(request.session.getAttribute("userId") as Long? ?: -1) ?: return "redirect:/login"
+
+        val game = Game()
+        game.name = name
+        game.description = description
+        game.admin = user
+        return if(Project.validateZipProject(blob.bytes)){
+            game.gameData = blob.bytes
+            gameService.save(game)
+            "redirect:/reserved/overview"
+        }else{
+            "redirect:/reserved/create-game?name=${name}&description=${description}&blobIncorrect=1"
+        }
+    }
+
+    @GetMapping("delete-game")
+    fun gameDeleteAction(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        @RequestParam("gameId") gameId: Long
+    ): String{
+        val user = userService.findById(request.session.getAttribute("userId") as Long? ?: -1) ?: return "redirect:/login"
+
+        val game = gameService.findById(gameId)
+        game?.let {
+            if(game.admin == user)
+                gameService.delete(game)
+        }
+        return "redirect:/reserved/overview"
     }
 }

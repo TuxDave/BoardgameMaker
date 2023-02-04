@@ -1,13 +1,13 @@
 <div th:fragment="content" class="container is is-four-fifths is-centered">
     <h1 class="title">Upload your wonderful game!</h1>
-    <form th:action="@{'/reserved/create-game'}" method="post" enctype="multipart/form-data">
+    <form th:action="@{'/reserved/create-game'}" method="post" id="upload-form" enctype="multipart/form-data">
         <label class="label">
             Name
-            <input class="input" type="text" style="margin-bottom: 20px" name="name">
+            <input th:value="${param.name}" class="input" type="text" style="margin-bottom: 20px" name="name" placeholder="Choose name for game...">
         </label>
         <label class="label">
             Description
-            <textarea class="textarea" type="text" style="margin-bottom: 20px" rows="7" name="description"></textarea>
+            <textarea placeholder="Write a short description for game" class="textarea" type="text" style="margin-bottom: 20px" rows="7" name="description">[[${param.description}]]</textarea>
         </label>
         <div style="margin-bottom: 20px" class="file">
             <label class="label">
@@ -17,11 +17,32 @@
                         <img src="/imgs/icons/upload.svg">
                       </span>
                       <span class="file-label">
-                        Choose game's ZIP file to update
+                        Choose game's ZIP file to upload
                       </span>
                     </span>
             </label>
         </div>
         <button type="submit" class="button is-primary">Save</button>
     </form>
+    <script>
+        form = document.getElementById("upload-form")
+        form.addEventListener("submit", (e) => {
+            let valid = true
+            let name = document.getElementsByName("name")[0]
+            name.classList.remove("is-danger")
+
+            if(name.value == ""){
+                valid = false
+                name.classList.add("is-danger")
+            }
+
+            if(!valid){
+                e.preventDefault()
+                e.stopPropagation()
+            }
+        })
+    </script>
+    <script th:if="${param.blobIncorrect}">
+        alert("Game uploaded not valid (retry)!")
+    </script>
 </div>
