@@ -32,7 +32,9 @@
                         <a th:href="@{'/reserved/delete-game?gameId=' + ${game.id}}"><button type="button" class="button">
                             <img width="16rem" src="/imgs/icons/trash.svg" ></img>
                         </button></a>
-                        <button type="button" class="button">we</button>
+                        <button type="button" th:onclick="'javascript:copy(' + ${game.id} + ')'" class="button">
+                            <img width="16rem" src="/imgs/icons/copy.svg" ></img>
+                        </button>
                     </div>
                 </td>
             </tr>
@@ -41,4 +43,10 @@
     <a th:href="@{'/reserved/create-game'}">
         <button class="button is-pulled-right"><img width="16rem" src="/imgs/icons/add.svg"></button>
     </a>
+    <script>
+        function copy(id){
+            navigator.clipboard.writeText(id)
+            alert("Game id (" + id + ") copied in clipboard!")
+        }
+    </script>
 </div>
