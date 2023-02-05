@@ -1,13 +1,14 @@
 <div th:fragment="content" class="container is-four-fifths is-centered">
     <h1 style="margin-top: 15px; margin-bottom: 15px" class="title">Boardgame Maker</h1>
-    <form id="search-form" th:action="@{'/'}" method="get">
+    <form style="margin-bottom: 20px" id="search-form" th:action="@{'/'}" method="get">
+        <input type="hidden" name="page" id="pageSelector" th:value="${selectedPage}">
         <div class="has-addons field">
             <div class="control">
-                <input class="input" type="text" name="name" placeholder="Search for a Game">
+                <input class="input" type="text" name="name" th:value="${param.name}" placeholder="Search for a Game">
             </div>
-            <select id="selectCategory" name="scope" onchange="changePlaceholder()" class="control">
-                <option value="Game">Game</option>
-                <option value="Author">Author</option>
+            <select id="selectCategory" th:value="${param.scope}" name="scope" onchange="changePlaceholder()" class="control">
+                <option value="game">Game</option>
+                <option value="author">Author</option>
             </select>
             <div class="control">
                 <button type="submit" class="button is-info">
@@ -16,6 +17,35 @@
             </div>
         </div>
     </form>
+
+    <table class="table is-fullwidth is-striped is-hoverable">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th class="Shorted">Description</th>
+                <th>Author</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="game: ${games}">
+                <td th:text="${game.id}"></td>
+                <td th:text="${game.name}"></td>
+                <td class="Shorted" th:text="${game.description}"></td>
+                <td th:text="${game.admin.username}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <nav class="is-pulled-right level">
+        <button th:onclick="'javascript:goto(-1,' + ${pages} + ')'" class="button level-item"><img width="16rem" src="/imgs/icons/previous.svg" alt="previous"></button>
+        <p style="margin: 4px" class="p-auto level-item">
+            page &nbsp;<strong id="currentPage">[[${selectedPage}]]</strong>&nbsp; of [[${pages}]]
+        </p>
+        <button th:onclick="'javascript:goto(1,' + ${pages} + ')'" class="button level-item"><img width="16rem" src="/imgs/icons/next.svg" alt="next"></button>
+    </nav>
+
     <script>
         function changePlaceholder(){
             let select = document.getElementById("selectCategory")
@@ -24,6 +54,11 @@
             }else{
                 document.getElementsByName("name")[0].placeholder = "Search for an Author"
             }
+        }
+
+        function goto(n, m){
+            document.getElementById("pageSelector").value = Math.min(Math.max(Number(document.getElementById("pageSelector").value) + n, 1), m)
+            document.getElementById("search-form").submit()
         }
     </script>
 </div>
