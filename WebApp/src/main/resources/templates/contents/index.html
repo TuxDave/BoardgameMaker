@@ -1,4 +1,11 @@
 <div th:fragment="content" class="container is-four-fifths is-centered">
+    <style>
+        .Shorted{
+            max-width: 400px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+    </style>
     <h1 style="margin-top: 15px; margin-bottom: 15px" class="title">Boardgame Maker</h1>
     <form style="margin-bottom: 20px" id="search-form" th:action="@{'/'}" method="get">
         <input type="hidden" name="page" id="pageSelector" th:value="${selectedPage}">
@@ -34,6 +41,16 @@
                 <td th:text="${game.name}"></td>
                 <td class="Shorted" th:text="${game.description}"></td>
                 <td th:text="${game.admin.username}"></td>
+                <td style="max-width: 200px">
+                    <div  class="container is-pulled-right">
+                        <button type="button" class="button">
+                            <img width="16rem" src="/imgs/icons/like_do.svg" alt="LIKE"></img>
+                        </button>
+                        <button type="button" th:onclick="'javascript:copy(' + ${game.id} + ')'" class="button">
+                            <img width="16rem" src="/imgs/icons/copy.svg" ></img>
+                        </button>
+                    </div>
+                </td>
             </tr>
         </tbody>
     </table>
@@ -59,6 +76,11 @@
         function goto(n, m){
             document.getElementById("pageSelector").value = Math.min(Math.max(Number(document.getElementById("pageSelector").value) + n, 1), m)
             document.getElementById("search-form").submit()
+        }
+
+        function copy(id){
+            navigator.clipboard.writeText(id)
+            alert("Game id (" + id + ") copied in clipboard!")
         }
     </script>
 </div>
