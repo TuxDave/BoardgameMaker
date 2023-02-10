@@ -16,9 +16,14 @@ CREATE TABLE GAME
     gameData    LONGBLOB        NOT NULL,
     name        VARCHAR(50)     NOT NULL,
     description TEXT            NOT NULL,
+    likes       INT             NOT NULL    DEFAULT 0,
     idUserAdmin BIGINT UNSIGNED NOT NULL
 );
 
+CREATE TABLE LIKE_USER_GAME(
+    idUser      BIGINT UNSIGNED NOT NULL,
+    idGame      BIGINT UNSIGNED NOT NULL
+);
 
 ALTER TABLE USER
     ADD CONSTRAINT UK_USER_1_USERNAME
@@ -28,6 +33,20 @@ ALTER TABLE GAME
     ADD CONSTRAINT FK_GAME_1_USER
         FOREIGN KEY (idUserAdmin)
             REFERENCES USER (id)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE;
+
+ALTER TABLE LIKE_USER_GAME
+    ADD CONSTRAINT PK
+        PRIMARY KEY (idUser, idGame),
+    ADD CONSTRAINT FK_LUG_1_USER
+        FOREIGN KEY (idUser)
+            REFERENCES USER (id)
+            ON DELETE CASCADE
+            ON UPDATE CASCADE,
+    ADD CONSTRAINT FL_LUG_2_GAME
+        FOREIGN KEY (idUser)
+            REFERENCES GAME (id)
             ON DELETE CASCADE
             ON UPDATE CASCADE;
 
