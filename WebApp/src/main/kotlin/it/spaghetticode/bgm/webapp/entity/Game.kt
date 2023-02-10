@@ -28,4 +28,9 @@ data class Game @JvmOverloads constructor(
     )
     @JoinColumn(name = "idUserAdmin", nullable = false)
     lateinit var admin: User
+
+    @ManyToMany(
+        mappedBy = "likes"
+    )
+    var likes: List<User> = listOf()
 }

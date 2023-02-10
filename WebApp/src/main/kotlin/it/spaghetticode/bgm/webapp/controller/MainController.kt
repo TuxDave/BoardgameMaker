@@ -32,6 +32,7 @@ class MainController {
         var gameList: List<Game> = if(name != null && scope != null){
             if(scope == "game"){ //search for game name
                 val temp = gameService.searchByName(name)
+                println(temp)
                 pages = temp.getPageCount()
                 temp.getPage(page)
             }else{

@@ -28,4 +28,15 @@ data class User @JvmOverloads constructor(
         fetch = FetchType.LAZY
     )
     var games: List<Game> = listOf()
+
+    @ManyToMany(
+        cascade = [CascadeType.ALL],
+        fetch = FetchType.EAGER
+    )
+    @JoinTable(
+        name = "LIKE_USER_GAME",
+        joinColumns = [JoinColumn(name = "idUser")],
+        inverseJoinColumns = [JoinColumn(name = "idGame")]
+    )
+    var likes: List<User> = listOf()
 }

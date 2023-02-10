@@ -45,7 +45,7 @@ ALTER TABLE LIKE_USER_GAME
             ON DELETE CASCADE
             ON UPDATE CASCADE,
     ADD CONSTRAINT FL_LUG_2_GAME
-        FOREIGN KEY (idUser)
+        FOREIGN KEY (idGame)
             REFERENCES GAME (id)
             ON DELETE CASCADE
             ON UPDATE CASCADE;
@@ -63,6 +63,7 @@ CREATE USER BoardgameMaker_Web
 GRANT SHOW VIEW ON BoardgameMaker.* TO BoardgameMaker_Web;
 GRANT ALL ON BoardgameMaker.USER TO BoardgameMaker_Web;
 GRANT ALL ON BoardgameMaker.GAME TO BoardgameMaker_Web;
+GRANT ALL ON BoardgameMaker.LIKE_USER_GAME TO BoardgameMaker_Web;
 
 -- Utils
 CREATE TABLE IF NOT EXISTS SPRING_SESSION (
