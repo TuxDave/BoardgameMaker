@@ -1,6 +1,7 @@
 package it.spaghetticode.bgm.webapp.service
 
 import it.spaghetticode.bgm.webapp.entity.Game
+import it.spaghetticode.bgm.webapp.entity.User
 import it.spaghetticode.bgm.webapp.repository.GameRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
@@ -22,7 +23,7 @@ fun List<Game>.limit(from: Int, to: Int): List<Game>{
 fun List<Game>.getPage(pageNumber: Int): List<Game>{
     val pages = ceil(size / PAGE_SIZE.toDouble()).toInt()
     val pageNumber = maxOf(minOf(pageNumber, pages), 1)
-    return this.limit(maxOf(0, PAGE_SIZE * (pageNumber - 1)), minOf(PAGE_SIZE * (pageNumber - 1) + PAGE_SIZE, size-1))
+    return this.limit(maxOf(0, PAGE_SIZE * (pageNumber - 1)), minOf(PAGE_SIZE * (pageNumber - 1) + PAGE_SIZE, size))
 }
 fun List<Game>.getPageCount(): Int{
     return ceil(size / PAGE_SIZE.toDouble()).toInt()
@@ -37,6 +38,8 @@ interface GameService{
     fun searchByName(name: String): List<Game>
     fun searchByAuthorUsername(username: String): List<Game>
     fun findAll(): List<Game>
+    fun addLike(user: User, game: Game): Unit
+    fun removeLike(user: User, game: Game): Unit
 }
 
 @Service
@@ -74,5 +77,15 @@ class GameServiceImpl: GameService{
 
     override fun findAll(): List<Game> {
         return gameRepository.findAll()
+    }
+
+    override fun addLike(user: User, game: Game) {
+        try{
+            gameRepository.addLike(user.id, game.id)
+        }catch (_: Exception){}
+    }
+
+    override fun removeLike(user: User, game: Game) {
+        gameRepository.removeLike(user.id, game.id)
     }
 }

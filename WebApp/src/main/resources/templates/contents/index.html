@@ -42,11 +42,18 @@
                 <td class="Shorted" th:text="${game.description}"></td>
                 <td th:text="${game.admin.username}"></td>
                 <td style="max-width: 200px">
-                    <div  class="container is-pulled-right">
-                        <button type="button" class="button">
-                            <img width="16rem" src="/imgs/icons/like_do.svg" alt="LIKE"></img>
-                        </button>
-<!--                        todo: deve comparire se si è loggati e mantenere lo stato (ovviamente)-->
+                    <div class="container is-pulled-right">
+                        <a th:if="${user}" th:href="@{'/do-undo-like?gameId=' + ${game.id} + '&userId=' + ${user.id}}">
+                            <button type="button" class="button">
+                                <img th:if="${#lists.contains(game.likes,  user)}" width="16rem" src="/imgs/icons/like.svg" alt="LIKE"></img>
+                                <img th:unless="${#lists.contains(game.likes, user)}" width="16rem" src="/imgs/icons/notLike.svg" alt="LIKE"></img>
+                            </button>
+                        </a>
+                        <a th:unless="${user}" th:href="@{/login}">
+                            <button  type="button" class="button">
+                                <img width="16rem" src="/imgs/icons/notLike.svg" alt="LIKE"></img>
+                            </button>
+                        </a>
                         <button type="button" th:onclick="'javascript:copy(' + ${game.id} + ')'" class="button">
                             <img width="16rem" src="/imgs/icons/copy.svg" ></img>
                         </button>

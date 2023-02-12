@@ -32,5 +32,5 @@ data class Game @JvmOverloads constructor(
     @ManyToMany(
         mappedBy = "likes"
     )
-    var likes: List<User> = listOf()
+    var likes: MutableList<User> = mutableListOf()
 }
