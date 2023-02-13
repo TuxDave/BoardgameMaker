@@ -30,8 +30,8 @@ data class User @JvmOverloads constructor(
     var games: List<Game> = listOf()
 
     @ManyToMany(
-        cascade = [CascadeType.PERSIST],
-        fetch = FetchType.LAZY
+        cascade = [CascadeType.ALL],
+        fetch = FetchType.EAGER
     )
     @JoinTable(
         name = "LIKE_USER_GAME",

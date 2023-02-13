@@ -8,8 +8,6 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import kotlin.math.ceil
 
-//todo: extension function order by likes
-
 const val PAGE_SIZE = 15
 fun List<Game>.limit(from: Int, to: Int): List<Game>{
     val from = maxOf(from, 0)
