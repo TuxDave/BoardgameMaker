@@ -47,11 +47,13 @@
                             <button type="button" class="button">
                                 <img th:if="${#lists.contains(game.likes,  user)}" width="16rem" src="/imgs/icons/like.svg" alt="LIKE"></img>
                                 <img th:unless="${#lists.contains(game.likes, user)}" width="16rem" src="/imgs/icons/notLike.svg" alt="LIKE"></img>
+                                &nbsp;<span th:text="${#lists.size(game.likes)}"></span>
                             </button>
                         </a>
                         <a th:unless="${user}" th:href="@{/login}">
                             <button  type="button" class="button">
-                                <img width="16rem" src="/imgs/icons/notLike.svg" alt="LIKE"></img>
+                                <img width="16rem" src="/imgs/icons/notLike.svg" alt="LIKE"></img>&nbsp;
+                                <span th:text="${#lists.size(game.likes)}"></span>
                             </button>
                         </a>
                         <button type="button" th:onclick="'javascript:copy(' + ${game.id} + ')'" class="button">

@@ -50,7 +50,7 @@ class MainController {
             request.setAttribute("user", it)
         }
 
-        request.setAttribute("games", gameList)
+        request.setAttribute("games", gameList.sortedBy { it.likes.size }.reversed())
         request.setAttribute("pages", maxOf(1, pages))
         request.setAttribute("selectedPage", page)
         request.session.setAttribute("savedURL", "${request.requestURI}?${request.queryString}")
